@@ -498,7 +498,7 @@ nav.tabs .seg { grid-template-columns: repeat(8, minmax(0, 1fr)); }
   nav.tabs .seg::-webkit-scrollbar { display: none; }
   nav.tabs a { flex: 0 0 auto; padding: 9px 14px; font-size: 14px; scroll-snap-align: center; }
 }
-@media (min-width: 761px) { nav.tabs .seg { grid-template-columns: repeat(9, minmax(0, 1fr)); } nav.tabs a { font-size: 13px; padding: 8px 2px; } }
+@media (min-width: 761px) { nav.tabs .seg { display: flex; } nav.tabs .seg a { flex: 1 1 0; font-size: 13px; padding: 8px 4px; } }
 
 .mzfirst { background: var(--gold-soft); border: 1px solid var(--gold); border-radius: 18px; padding: 16px; display: grid; gap: 10px; }
 .mzfirst b { font-family: var(--f-display); font-weight: 400; font-size: 20px; }
@@ -533,6 +533,99 @@ nav.tabs .seg { grid-template-columns: repeat(8, minmax(0, 1fr)); }
 .figure.pose .pq { fill: var(--muted); font: 600 11px var(--f-body); }
 .figure.pose .parr { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 @media (prefers-reduced-motion: no-preference) { .figure.pose svg g { animation: rise .35s ease-out; } }
+/* ---------- v5: modes, namaz look ---------- */
+:root { --night: #2b3f7a; --night-soft: #e4e9f7; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --night: #9fb2ea; --night-soft: #1b2342; } }
+:root[data-theme="dark"] { --night: #9fb2ea; --night-soft: #1b2342; }
+:root[data-mode="namaz"] { --hero-a: #0e1836; --hero-b: #2a3d78; }
+
+.modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-block: 6px 4px; }
+.mode {
+  position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 10px; align-items: center;
+  padding: 14px 12px; border-radius: 18px; text-decoration: none; color: var(--hero-ink); overflow: hidden;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.2); transition: background .2s, transform .1s;
+}
+.mode:active { transform: scale(.98); }
+.mode svg { width: 40px; height: 40px; }
+.mode svg path { fill: var(--water); }
+.mode[data-mode="namaz"] svg path { fill: var(--gold); }
+.mode svg .hl { fill: none; stroke: rgba(255,255,255,.75); stroke-width: 3; stroke-linecap: round; }
+.mode[data-mode="namaz"] svg .hl { fill: rgba(255,255,255,.25); stroke: none; }
+.mode b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 21px; line-height: 1.15; }
+.mode small { display: block; font-size: 12px; opacity: .75; line-height: 1.3; }
+.mode .mar { position: absolute; right: 10px; top: 4px; font-family: var(--f-arabic); font-size: 15px; opacity: .45; }
+.mode[aria-current="true"] { background: var(--hero-ink); color: var(--hero-a); border-color: var(--hero-ink); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.mode[aria-current="true"] .mar { opacity: .6; color: var(--gold); }
+@media (max-width: 560px) { .mode .mar { display: none; } }
+@media (max-width: 360px) { .mode { grid-template-columns: 1fr; text-align: center; justify-items: center; } }
+.lessonbox > * { min-width: 0; }
+
+.intro.night { background: linear-gradient(135deg, var(--night-soft), var(--surface) 70%); }
+.dalil.inline { background: var(--surface); }
+:root[data-mode="namaz"] nav.tabs a[aria-current="page"] { background: var(--night); color: var(--surface); }
+
+.dayarc { gap: 12px; padding: 16px; }
+.dayarc svg { display: block; width: 100%; height: auto; border-radius: 18px; }
+.pm { cursor: pointer; outline: none; }
+.pm .halo { fill: #ffffff; opacity: 0; transition: opacity .2s; }
+.pm.on .halo { opacity: .35; }
+.pm .dot { fill: #ffffff; stroke: #c99a2e; stroke-width: 2.5; transition: r .2s; }
+.pm.on .dot { fill: #c99a2e; stroke: #ffffff; }
+.pm .num { font: 700 14px var(--f-body); fill: #13284d; }
+.pm.on .num { fill: #ffffff; }
+.pm .lab { font: 700 12px var(--f-body); fill: #13284d; paint-order: stroke; stroke: rgba(255,255,255,.85); stroke-width: 3px; }
+.pm .lab.low { fill: var(--ink); stroke: var(--surface); }
+.pm .moon { fill: #f6e7b4; }
+.pm:focus-visible .dot { stroke: var(--accent); stroke-width: 4; }
+.pdetail { display: grid; gap: 12px; }
+.pdh { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.pdh .ar { font-family: var(--f-arabic); font-size: 26px; color: var(--gold); line-height: 1.1; }
+.pdh h3 { font-size: 30px; }
+.pdh small { color: var(--muted); }
+.pdh .big { display: flex; align-items: center; gap: 8px; }
+.pdh .big i { font-style: normal; font-family: var(--f-display); font-size: 54px; line-height: 1; color: var(--night); }
+.pdh .big span { font-size: 13px; color: var(--muted); font-weight: 600; line-height: 1.2; }
+.rgroups { display: flex; flex-wrap: wrap; gap: 10px 18px; background: var(--bg); border-radius: 14px; padding: 12px 14px; }
+.rg { display: grid; gap: 6px; justify-items: start; }
+.rg span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.rd { display: flex; gap: 5px; }
+.rd i, .plegend i { width: 18px; height: 18px; border-radius: 50%; display: inline-block; }
+.r-f { background: var(--night); }
+.r-m { border: 3px solid var(--night); }
+.r-g { border: 2px dashed var(--night); }
+.r-w { background: var(--gold); }
+.ptime { font-size: 15px; }
+.plegend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted); }
+.plegend span { display: inline-flex; gap: 5px; align-items: center; }
+.plegend i { width: 12px; height: 12px; }
+.ptotal { text-align: center; font-size: 15px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; font-variant-numeric: tabular-nums; }
+.ptotal b { color: var(--ink); font-size: 17px; }
+.ptotal b.on { color: var(--gold); }
+
+.figure.pose { background: radial-gradient(90% 60% at 50% 25%, var(--night-soft), var(--surface) 75%); }
+.figure.pose .cap { color: var(--night); }
+.progress.thumbs { overflow-x: auto; gap: 6px; padding-bottom: 4px; scrollbar-width: none; }
+.progress.thumbs::-webkit-scrollbar { display: none; }
+.progress button.thumb { flex: 0 0 48px; height: 48px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); padding: 2px; }
+.progress button.thumb::before { display: none; }
+.progress button.thumb svg { width: 100%; height: 100%; display: block; }
+.progress button.thumb.seen { background: var(--night-soft); }
+.progress button.thumb.cur { border: 2px solid var(--gold); background: var(--gold-soft); }
+.progress button.thumb .pq { display: none; }
+.thumb .pc { stroke: var(--cloth); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.thumb .po { stroke: var(--cloth-line); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.thumb .ps { stroke: var(--skin); fill: none; stroke-linecap: round; }
+.thumb .pso { stroke: var(--skin-line); fill: none; stroke-linecap: round; }
+.thumb .psk { fill: var(--skin); stroke: var(--skin-line); }
+.thumb .pcap { fill: var(--cap); }
+.thumb .pmat { fill: var(--gold); opacity: .55; }
+.thumb .parr { fill: none; stroke: var(--accent); stroke-width: 3; }
+.gpose { width: 170px; max-width: 60%; border-radius: 85px 85px 18px 18px; background: radial-gradient(90% 60% at 50% 25%, var(--night-soft), var(--surface) 80%); border: 1px solid var(--line); padding: 8px; }
+.gpose svg { display: block; width: 100%; height: auto; }
+.gpose .pc, .gpose .po, .gpose .ps, .gpose .pso { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.gpose .pc { stroke: var(--cloth); } .gpose .po { stroke: var(--cloth-line); } .gpose .ps { stroke: var(--skin); } .gpose .pso { stroke: var(--skin-line); }
+.gpose .psk { fill: var(--skin); stroke: var(--skin-line); } .gpose .pcap { fill: var(--cap); } .gpose .pmat { fill: var(--gold); opacity: .55; }
+.gpose .pq { fill: var(--muted); font: 600 11px var(--f-body); } .gpose .parr { fill: none; stroke: var(--accent); stroke-width: 2.5; }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; text-align: center; display: grid; gap: 8px; justify-items: center; }
 footer .orn { width: 120px; height: 14px; }
 footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: .7; }
@@ -542,10 +635,21 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
 
 <header class="hero">
   <div class="wrap">
-    <span class="cal" lang="ar">الوُضُوء</span>
-    <h1>Учимся омовению и намазу</h1>
-    <p>Вуду, гусль, таяммум и намаз по шагам: что делать, в каком порядке и сколько раз. С доводами из Корана и Сунны, мнениями четырёх мазхабов и разделом для женщин.</p>
-    <div class="facts"><span><b>11</b> шагов вуду</span><span><b>12</b> шагов гусля</span><span><b>6</b> шагов таяммума</span><span><b>14</b> шагов намаза</span><span><b>4</b> мазхаба с доводами</span></div>
+    <span class="cal" lang="ar" id="heroCal">الوُضُوء</span>
+    <h1 id="heroTitle">Учимся омовению</h1>
+    <div class="modes" role="group" aria-label="Что изучаем">
+      <a class="mode" href="#learn" data-mode="wudu">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5c8 11 14 18 14 25a14 14 0 0 1-28 0c0-7 6-14 14-25z"/><path d="M18 31a6 6 0 0 0 6 6" class="hl"/></svg>
+        <span><b>Омовение</b><small>Вуду · гусль · таяммум</small></span>
+        <span class="mar" lang="ar">الطَّهَارَة</span>
+      </a>
+      <a class="mode" href="#namaz" data-mode="namaz">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 44V22c0-8 6-14 14-17 8 3 14 9 14 17v22z"/><path d="M17 44V25c0-4 3-7 7-9 4 2 7 5 7 9v19" class="hl"/></svg>
+        <span><b>Намаз</b><small>Время · столпы · урок</small></span>
+        <span class="mar" lang="ar">الصَّلَاة</span>
+      </a>
+    </div>
+    <p id="heroText">Вуду, гусль и таяммум по шагам — с доводами из Корана и Сунны и мнениями четырёх мазхабов.</p>
     <div class="mzpick" role="group" aria-label="Мой мазхаб">
       <span>Мой мазхаб</span>
       <div>
@@ -564,14 +668,22 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
 
 <nav class="tabs" aria-label="Разделы">
   <div class="wrap">
-    <div class="seg">
+    <div class="seg" data-for="wudu">
       <a href="#learn" data-view="learn">Вуду</a>
       <a href="#ghusl" data-view="ghusl">Гусль</a>
       <a href="#tayammum" data-view="tayammum">Таяммум</a>
-      <a href="#namaz" data-view="namaz">Намаз</a>
       <a href="#women" data-view="women">Женщинам</a>
       <a href="#rules" data-view="rules">Правила</a>
       <a href="#madhab" data-view="madhab">Мазхабы</a>
+      <a href="#glossary" data-view="glossary">Словарь</a>
+      <a href="#quiz" data-view="quiz">Проверка</a>
+    </div>
+    <div class="seg" data-for="namaz" hidden>
+      <a href="#namaz" data-view="namaz">Пять намазов</a>
+      <a href="#namaz-lesson" data-view="namaz-lesson">Как совершать</a>
+      <a href="#namaz-rules" data-view="namaz-rules">Условия и столпы</a>
+      <a href="#namaz-women" data-view="namaz-women">Женщинам</a>
+      <a href="#madhab-namaz" data-view="madhab">Мазхабы</a>
       <a href="#glossary" data-view="glossary">Словарь</a>
       <a href="#quiz" data-view="quiz">Проверка</a>
     </div>
@@ -768,36 +880,61 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     </div>
   </section>
 
-  <!-- NAMAZ -->
+  <!-- NAMAZ: five prayers -->
   <section class="view" id="v-namaz" hidden>
-    <div class="intro">
-      <span class="ar" lang="ar">الصَّلَاة</span>
-      <h2>Намаз — как его совершать</h2>
-      <p>Пять ежедневных намазов — второй столп ислама. Здесь: время и ракааты, условия и столпы намаза, урок по шагам с положениями тела и текстами на арабском.</p>
+    <div class="dayarc card">
+      <div class="ayah-top"><span class="lbl">Пять намазов за сутки</span><span class="src">Нажмите на намаз</span></div>
+      <svg viewBox="0 0 360 200" id="arcSvg" role="group" aria-label="Время намазов">
+        <defs>
+          <linearGradient id="sky" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#1b2a55"/><stop offset=".13" stop-color="#e9a77f"/><stop offset=".3" stop-color="#9fd0ec"/>
+            <stop offset=".68" stop-color="#bfe0f2"/><stop offset=".86" stop-color="#ee9a6a"/><stop offset="1" stop-color="#1b2a55"/>
+          </linearGradient>
+          <clipPath id="skyClip"><rect x="0" y="0" width="360" height="162" rx="18"/></clipPath>
+        </defs>
+        <g clip-path="url(#skyClip)">
+          <rect x="0" y="0" width="360" height="162" fill="url(#sky)"/>
+          <g fill="#ffffff" opacity=".8"><circle cx="18" cy="24" r="1.4"/><circle cx="36" cy="52" r="1"/><circle cx="12" cy="88" r="1.2"/><circle cx="342" cy="96" r="1.2"/><circle cx="326" cy="20" r="1"/><circle cx="348" cy="60" r="1.4"/></g>
+        </g>
+        <path d="M24 160 Q180 -40 336 160" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4 6" opacity=".9"/>
+        <rect x="0" y="160" width="360" height="40" fill="var(--surface)"/>
+        <line x1="0" y1="160" x2="360" y2="160" stroke="var(--line)" stroke-width="2"/>
+        <g id="arcMarks"></g>
+      </svg>
+      <div class="pdetail" id="pDetail" aria-live="polite"></div>
+      <div class="ptotal" id="pTotal"></div>
     </div>
+
     <div class="dalil">
       <span class="lbl">Довод</span>
       <q>«Воистину, намаз предписан верующим в определённое время»</q>
       <cite>Коран, 4:103</cite>
-      <q>«Молитесь так, как видели, что молюсь я»</q>
-      <cite>аль-Бухари 631</cite>
       <q>«Первое, за что будет спрошен раб в Судный день, — это его намаз»</q>
       <cite>Абу Дауд 864, ат-Тирмизи 413</cite>
+      <q>Время установлено хадисом о том, как Джибриль дважды молился с Пророком ﷺ — в начале и в конце времени каждого намаза</q>
+      <cite>Абу Дауд 393, ат-Тирмизи 149</cite>
     </div>
+    <p class="mznote">Точное время для вашего города смотрите в местном расписании намазов.</p>
 
-    <div class="sub">
-      <div class="section-title"><h3>Пять намазов</h3></div>
-      <p class="lead">За сутки — <b>17 ракаатов фарда</b>. Число фардов одинаково во всех мазхабах, число сунн немного отличается.</p>
-      <div class="prayers">
-        <div class="prayer"><div class="ph"><span class="ar" lang="ar">الفَجْر</span><b>Фаджр</b><small>утренний</small></div><div class="rk"><i>2</i><span>фард</span></div><p class="ps">Сунна: 2 ракаата до фарда</p><p class="pt">От рассвета до восхода солнца</p></div>
-        <div class="prayer"><div class="ph"><span class="ar" lang="ar">الظُّهْر</span><b>Зухр</b><small>полуденный</small></div><div class="rk"><i>4</i><span>фард</span></div><p class="ps" data-mzt='{"h":"Сунна: 4 ракаата до и 2 после","m":"Сунна: желательно 4 до и после — без строгого числа","s":"Сунна: 2 (или 4) до и 2 (или 4) после","hb":"Сунна: 2 ракаата до и 2 после"}'>Сунна: 4 ракаата до и 2 после</p><p class="pt" data-mzt='{"h":"От зенита, пока тень предмета не станет вдвое больше него (по Абу Ханифе)","all":"От зенита, пока тень предмета не станет равной ему"}'>От зенита</p></div>
-        <div class="prayer"><div class="ph"><span class="ar" lang="ar">العَصْر</span><b>Аср</b><small>послеполуденный</small></div><div class="rk"><i>4</i><span>фард</span></div><p class="ps" data-mzt='{"h":"Сунна: 4 до — желательна, но не подтверждённая (гайру муаккада)","m":"Сунна: желательно 4 до","s":"Сунна: 2 или 4 до — желательна","hb":"Постоянной сунны нет, 4 до — желательно"}'>Сунна: 4 до</p><p class="pt">До заката. Откладывать до пожелтения солнца нежелательно</p></div>
-        <div class="prayer"><div class="ph"><span class="ar" lang="ar">المَغْرِب</span><b>Магриб</b><small>вечерний</small></div><div class="rk"><i>3</i><span>фард</span></div><p class="ps">Сунна: 2 ракаата после</p><p class="pt">От заката до исчезновения вечерней зари</p></div>
-        <div class="prayer"><div class="ph"><span class="ar" lang="ar">العِشَاء</span><b>Иша</b><small>ночной</small></div><div class="rk"><i>4</i><span>фард</span></div><p class="ps" data-mzt='{"h":"Сунна: 2 после. Затем витр — 3 ракаата, ваджиб","m":"Сунна: 2 после. Витр — сунна: 1 ракаат после двух","s":"Сунна: 2 после. Витр — сунна: от 1 до 11 ракаатов","hb":"Сунна: 2 после. Витр — сунна: от 1 до 11 ракаатов"}'>Сунна: 2 после</p><p class="pt">После исчезновения зари до рассвета. Лучше — до полуночи</p></div>
-      </div>
-      <p class="mznote">Время установлено хадисом о том, как Джибриль дважды молился с Пророком ﷺ — в начале и в конце времени каждого намаза (Абу Дауд 393, ат-Тирмизи 149). Точное время для вашего города смотрите в местном расписании.</p>
+    <div class="navbtns">
+      <a class="btn" href="#namaz-rules">Условия и столпы</a>
+      <a class="btn primary" href="#namaz-lesson">Как совершать намаз →</a>
     </div>
+  </section>
 
+  <!-- NAMAZ: lesson -->
+  <section class="view" id="v-namaz-lesson" hidden>
+    <div class="intro night">
+      <span class="ar" lang="ar">صِفَةُ الصَّلَاة</span>
+      <h2>Как совершать намаз</h2>
+      <p>Два ракаата на примере утреннего намаза. В 3- и 4-ракаатных намазах после второго ракаата садятся только для ташаххуда и встают, а в последних ракаатах фарда читают только Фатиху.</p>
+      <div class="dalil inline"><q>«Молитесь так, как видели, что молюсь я»</q><cite>аль-Бухари 631</cite></div>
+    </div>
+    <div class="lessonbox" id="lessonNamaz"></div>
+  </section>
+
+  <!-- NAMAZ: conditions and pillars -->
+  <section class="view" id="v-namaz-rules" hidden>
     <div class="sub">
       <div class="section-title"><h3>Условия намаза</h3></div>
       <p class="lead">Их выполняют до начала намаза. Без них намаз недействителен.</p>
@@ -806,17 +943,11 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
         <li><b>Чистота тела, одежды и места</b><span>«И одежды твои очищай» (Коран, 74:4)</span></li>
         <li><b>Покрытие аурата</b><span data-mzt='{"h":"Мужчина — от пупка до колен включительно. Женщина — всё тело, кроме лица, кистей и стоп","m":"Мужчина — от пупка до колен. Женщина — всё тело, кроме лица и кистей","s":"Мужчина — от пупка до колен. Женщина — всё тело, кроме лица и кистей","hb":"Мужчина — от пупка до колен. Женщина — всё тело, кроме лица"}'>Мужчина — от пупка до колен</span></li>
         <li><b>Направление на киблу</b><span>«Обрати же лицо своё в сторону Запретной мечети» (Коран, 2:144)</span></li>
-        <li><b>Наступление времени</b><span>Намаз, прочитанный до своего времени, не засчитывается (Коран, 4:103)</span></li>
+        <li><b>Наступление времени</b><span>Намаз, прочитанный до своего времени, не засчитывается (Коран, 4:103). <a href="#namaz">Время намазов →</a></span></li>
         <li><b>Намерение</b><span>В сердце: какой намаз и что он фард или сунна</span></li>
       </ul>
       <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span>«Аллах не принимает намаз взрослой женщины без покрывала» (Абу Дауд 641, ат-Тирмизи 377).</span></p>
     </div>
-
-    <div class="sub">
-      <div class="section-title"><h3>Урок: утренний намаз</h3></div>
-      <p class="lead">Показаны 2 ракаата на примере фаджра. В 3- и 4-ракаатных намазах после второго ракаата садятся только для ташаххуда и встают, а в последних ракаатах фарда читают только Фатиху.</p>
-    </div>
-    <div class="lessonbox" id="lessonNamaz"></div>
 
     <div class="fardbox">
       <div class="section-title"><h3 id="fardNamazTitle">Столпы намаза</h3></div>
@@ -844,24 +975,32 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       <div class="section-title"><h3>Суджуд ас-сахв — поклон забывчивости</h3></div>
       <ul class="list">
         <li><b>Когда делают</b><span>Если по забывчивости пропустили обязательное действие (у ханафитов — ваджиб: например, первое сидение) или добавили лишнее (лишний ракаат, суджуд)</span></li>
-        <li><b>Как делают</b><span data-mzt='{"h":"После одного салама направо — два земных поклона, затем снова ташаххуд, салават и салам","m":"За пропуск — два поклона до салама, за добавление — после салама","s":"Перед саламом — два земных поклона, затем салам","hb":"Обычно перед саламом; после — в случаях, когда так поступал Пророк ﷺ"}'>Два земных поклона</span></li>
-        <li><b>Довод</b><span>Пророк ﷺ забыл первое сидение и сделал два поклона перед саламом (аль-Бухари 829, Муслим 570). В другой раз — после салама, когда прочитал пять ракаатов (аль-Бухари 401, Муслим 572). <a href="#m-sahw">Мнения →</a></span></li>
+        <li><b>Как делают</b><span data-mzt='{"h":"После одного саляма направо — два земных поклона, затем снова ташаххуд, салават и салям","m":"За пропуск — два поклона до саляма, за добавление — после саляма","s":"Перед салямом — два земных поклона, затем салям","hb":"Обычно перед салямом; после — в случаях, когда так поступал Пророк ﷺ"}'>Два земных поклона</span></li>
+        <li><b>Довод</b><span>Пророк ﷺ забыл первое сидение и сделал два поклона перед салямом (аль-Бухари 829, Муслим 570). В другой раз — после саляма, когда прочитал пять ракаатов (аль-Бухари 401, Муслим 572). <a href="#m-sahw">Мнения →</a></span></li>
         <li><b>Если сомневаетесь в числе ракаатов</b><span>«…пусть отбросит сомнение и опирается на то, в чём уверен» — то есть на меньшее число (Муслим 571)</span></li>
       </ul>
     </div>
+  </section>
 
-    <div class="sub">
-      <div class="section-title"><h3>Намаз женщины</h3></div>
-      <p class="lead">Порядок тот же. Отличия — в положении тела: женщина держится собраннее. Ниже — по ханафитскому мазхабу. В других мазхабах отличий меньше: в основном — собранность в поясном и земном поклоне.</p>
-      <ul class="list rose">
-        <li><b>Такбир</b><span>Руки поднимают до плеч</span></li>
-        <li><b>Стояние</b><span>Руки кладут на грудь</span></li>
-        <li><b>Руку‘</b><span>Наклоняются меньше, пальцы не раздвигают</span></li>
-        <li><b>Суджуд</b><span>Живот прижимают к бёдрам, руки — к бокам</span></li>
-        <li><b>Сидение</b><span>Садятся на левое бедро, выведя обе стопы вправо</span></li>
-        <li><b>Громкость</b><span>Читают про себя, даже в намазах с громким чтением</span></li>
-        <li><b>Во время хайда и нифаса</b><span>Намаз не читают и потом не возмещают (Муслим 335). <a href="#women">Подробнее →</a></span></li>
-      </ul>
+  <!-- NAMAZ: women -->
+  <section class="view" id="v-namaz-women" hidden>
+    <div class="intro rose">
+      <span class="ar" lang="ar">صَلَاةُ المَرْأَة</span>
+      <h2>Намаз женщины</h2>
+      <p>Порядок тот же, что у мужчины. Отличия — в положении тела: женщина держится собраннее. Ниже — по ханафитскому мазхабу. В других мазхабах отличий меньше, в основном — собранность в поясном и земном поклоне.</p>
+    </div>
+    <ul class="list rose">
+      <li><b>Такбир</b><span>Руки поднимают до плеч</span></li>
+      <li><b>Стояние</b><span>Руки кладут на грудь</span></li>
+      <li><b>Руку‘</b><span>Наклоняются меньше, пальцы не раздвигают</span></li>
+      <li><b>Суджуд</b><span>Живот прижимают к бёдрам, руки — к бокам</span></li>
+      <li><b>Сидение</b><span>Садятся на левое бедро, выведя обе стопы вправо</span></li>
+      <li><b>Громкость</b><span>Читают про себя, даже в намазах с громким чтением</span></li>
+      <li><b>Аурат</b><span data-mzt='{"h":"Всё тело, кроме лица, кистей и стоп","m":"Всё тело, кроме лица и кистей","s":"Всё тело, кроме лица и кистей","hb":"Всё тело, кроме лица"}'>Всё тело, кроме лица и кистей</span></li>
+      <li><b>Во время хайда и нифаса</b><span>Намаз не читают и потом не возмещают (Муслим 335). <a href="#women">Подробнее →</a></span></li>
+    </ul>
+    <div class="navbtns">
+      <a class="btn primary" href="#namaz-lesson">Урок намаза →</a>
     </div>
   </section>
 
@@ -1159,6 +1298,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     </div>
     <div class="gbar"><i id="gBar"></i></div>
     <div class="gbody" id="gBody">
+      <div class="gpose" id="gPose" hidden></div>
       <div class="gar" lang="ar" id="gAr"></div>
       <h2 id="gTitle"></h2>
       <p id="gText"></p>
@@ -1461,7 +1601,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     var count = el("div", "stepcount");
     var stepNum = el("span"), seenNum = el("span");
     count.appendChild(stepNum); count.appendChild(seenNum);
-    var progress = el("div", "progress");
+    var progress = el("div", "progress" + (last.poses ? " thumbs" : ""));
     progress.setAttribute("aria-label", "Шаги");
     top.appendChild(count); top.appendChild(progress);
 
@@ -1489,6 +1629,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       var b = el("button");
       b.type = "button";
       b.setAttribute("aria-label", "Шаг " + (i + 1) + ": " + s.title);
+      if (last.poses) b.innerHTML = '<svg viewBox="20 18 168 174"><g>' + (POSES[s.pose] || "") + "</g></svg>";
       b.addEventListener("click", function () { go(i); });
       progress.appendChild(b);
     });
@@ -1518,7 +1659,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       seenNum.textContent = "Изучено " + seen.length + " из " + steps.length;
       mzb.textContent = "По " + MZ_ADJ[MZ] + " мазхабу";
       Array.prototype.forEach.call(progress.children, function (b, i) {
-        b.className = (i === cur ? "cur" : "") + (seen.indexOf(i) >= 0 ? " seen" : "") + (kindOf(steps[i]) !== "sunna" ? " fard" : "");
+        b.className = (last.poses ? "thumb " : "") + (i === cur ? "cur" : "") + (seen.indexOf(i) >= 0 ? " seen" : "") + (kindOf(steps[i]) !== "sunna" ? " fard" : "");
         if (i === cur) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
       });
 
@@ -1526,7 +1667,11 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
         n.classList.toggle("on", s.zone.indexOf(n.getAttribute("data-z")) >= 0);
       });
       placeDrops();
-      if (last.poses) fig.querySelector("svg").innerHTML = "<g>" + (POSES[s.pose] || "") + "</g>";
+      if (last.poses) {
+        fig.querySelector("svg").innerHTML = "<g>" + (POSES[s.pose] || "") + "</g>";
+        var cb = progress.children[cur];
+        if (cb && progress.scrollWidth > progress.clientWidth) progress.scrollTo({ left: cb.offsetLeft - progress.clientWidth / 2 + cb.offsetWidth / 2, behavior: "smooth" });
+      }
       fig.querySelector(".cap").textContent = s.cap;
 
       card.innerHTML = "";
@@ -2134,11 +2279,88 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   );
   MZ_GROUPS.splice(4, 0, ["namaz", "Намаз"]);
 
+  /* ---------- Five prayers: day arc ---------- */
+  var PRAYERS = [
+    { name: "Фаджр", ru: "утренний", ar: "الفَجْر", fard: 2, x: 42, y: 146, time: "От рассвета до восхода солнца",
+      s: { all: { b: [2, "m"] } } },
+    { name: "Зухр", ru: "полуденный", ar: "الظُّهْر", fard: 4, x: 186, y: 60, time: "От зенита, пока тень предмета не станет равной ему",
+      timeH: "От зенита, пока тень предмета не станет вдвое больше него (по Абу Ханифе)",
+      s: { h: { b: [4, "m"], a: [2, "m"] }, s: { b: [2, "m"], a: [2, "m"] }, hb: { b: [2, "m"], a: [2, "m"] }, m: { b: [4, "g"], a: [2, "g"] } } },
+    { name: "Аср", ru: "послеполуденный", ar: "العَصْر", fard: 4, x: 258, y: 85, time: "До заката. Откладывать до пожелтения солнца нежелательно",
+      s: { all: { b: [4, "g"] } } },
+    { name: "Магриб", ru: "вечерний", ar: "المَغْرِب", fard: 3, x: 322, y: 146, time: "От заката до исчезновения вечерней зари",
+      s: { all: { a: [2, "m"] }, m: { a: [2, "g"] } } },
+    { name: "Иша", ru: "ночной", ar: "العِشَاء", fard: 4, x: 300, y: 34, moon: true, time: "После исчезновения зари до рассвета. Лучше — до полуночи",
+      s: { all: { a: [2, "m"], w: [1, "w"] }, h: { a: [2, "m"], w: [3, "w"] }, m: { a: [2, "g"], w: [1, "w"] } } }
+  ];
+  var SUNNA_NOTE = {
+    h: "Сунна муаккада — подтверждённая, её оставлять нежелательно. Витр у ханафитов — ваджиб, 3 ракаата.",
+    m: "У маликитов у сунн нет строгого числа ракаатов: отмечены желательные. Витр — 1 ракаат после двух.",
+    s: "Отмечен минимум подтверждённых сунн. Витр — сунна, от 1 до 11 ракаатов, нечётно.",
+    hb: "Подтверждённых сунн 10 ракаатов в сутки. Витр — сунна, от 1 до 11 ракаатов, нечётно."
+  };
+  var pSel = 0;
+  function dots(n, cls) { var h = ""; for (var i = 0; i < n; i++) h += '<i class="' + cls + '"></i>'; return h; }
+  function renderArc() {
+    var g = document.getElementById("arcMarks");
+    var svg = "";
+    PRAYERS.forEach(function (p, i) {
+      var on = i === pSel, r = on ? 17 : 14;
+      svg += '<g class="pm' + (on ? " on" : "") + '" data-i="' + i + '" tabindex="0" role="button" aria-label="' + p.name + ', ' + p.fard + ' ракаата фарда">';
+      if (p.moon) svg += '<path d="M' + (p.x + 12) + ' ' + (p.y - 22) + ' a14 14 0 1 0 10 20 a11 11 0 1 1 -10 -20z" class="moon"/>';
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + (r + 7) + '" class="halo"/>';
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + r + '" class="dot"/>';
+      svg += '<text x="' + p.x + '" y="' + (p.y + 5) + '" text-anchor="middle" class="num">' + p.fard + '</text>';
+      var ly = p.y > 120 ? 184 : p.y + r + 16;
+      svg += '<text x="' + p.x + '" y="' + ly + '" text-anchor="middle" class="lab' + (p.y > 120 ? " low" : "") + '">' + p.name + '</text></g>';
+    });
+    g.innerHTML = svg;
+    g.querySelectorAll(".pm").forEach(function (m) {
+      var pick = function () { pSel = +m.getAttribute("data-i"); renderArc(); };
+      m.addEventListener("click", pick);
+      m.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+    });
+
+    var p = PRAYERS[pSel], s = pickMz(p.s) || {};
+    var groups = "";
+    if (s.b) groups += '<div class="rg"><div class="rd">' + dots(s.b[0], "r-" + s.b[1]) + '</div><span>Сунна до</span></div>';
+    groups += '<div class="rg"><div class="rd">' + dots(p.fard, "r-f") + '</div><span>Фард</span></div>';
+    if (s.a) groups += '<div class="rg"><div class="rd">' + dots(s.a[0], "r-" + s.a[1]) + '</div><span>Сунна после</span></div>';
+    if (s.w) groups += '<div class="rg"><div class="rd">' + dots(s.w[0], "r-w") + '</div><span>' + (MZ === "h" ? "Витр · ваджиб" : "Витр · от 1") + '</span></div>';
+    var d = document.getElementById("pDetail");
+    d.innerHTML = '<div class="pdh"><div><span class="ar" lang="ar">' + p.ar + '</span><h3>' + p.name + '</h3><small>' + p.ru + ' намаз</small></div>' +
+      '<div class="big"><i>' + p.fard + '</i><span>ракаата<br>фарда</span></div></div>' +
+      '<div class="rgroups">' + groups + '</div>' +
+      '<p class="ptime"><b>Время:</b> ' + (MZ === "h" && p.timeH ? p.timeH : p.time) + '</p>' +
+      '<p class="plegend"><span><i class="r-f"></i>фард</span><span><i class="r-m"></i>сунна муаккада</span><span><i class="r-g"></i>желательно</span><span><i class="r-w"></i>витр</span></p>' +
+      '<p class="mznote">' + SUNNA_NOTE[MZ] + '</p>';
+    document.getElementById("pTotal").innerHTML = 'Фард за сутки: ' + PRAYERS.map(function (x, i) { return '<b' + (i === pSel ? ' class="on"' : '') + '>' + x.fard + '</b>'; }).join(" + ") + ' = <b>17</b> ракаатов';
+  }
+
+  /* ---------- Mode: омовение / намаз ---------- */
+  var NAMAZ_V = ["namaz", "namaz-lesson", "namaz-rules", "namaz-women"], WUDU_V = ["learn", "ghusl", "tayammum", "women", "rules"];
+  var HERO = {
+    wudu: { cal: "الوُضُوء", t: "Учимся омовению", p: "Вуду, гусль и таяммум по шагам — с доводами из Корана и Сунны и мнениями четырёх мазхабов." },
+    namaz: { cal: "الصَّلَاة", t: "Учимся намазу", p: "Пять намазов, условия и столпы, урок по шагам с положениями тела и текстами на арабском." }
+  };
+  var MODE = store.get("mode", "wudu");
+  function setAppMode(m) {
+    MODE = m; store.set("mode", m);
+    document.documentElement.setAttribute("data-mode", m);
+    document.getElementById("heroCal").textContent = HERO[m].cal;
+    document.getElementById("heroTitle").textContent = HERO[m].t;
+    document.getElementById("heroText").textContent = HERO[m].p;
+    document.querySelectorAll("nav.tabs .seg").forEach(function (s) { s.hidden = s.getAttribute("data-for") !== m; });
+    document.querySelectorAll(".mode").forEach(function (a) {
+      if (a.getAttribute("data-mode") === m) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+    });
+  }
+
   var lessons = {
     learn: Lesson(document.getElementById("lessonWudu"), WUDU, "wudu", { label: "Проверить себя →", hash: "quiz", name: "Вуду" }),
     ghusl: Lesson(document.getElementById("lessonGhusl"), GHUSL, "ghusl", { label: "Тренировать порядок →", hash: "practice", name: "Гусль" }),
     tayammum: Lesson(document.getElementById("lessonTayammum"), TAYAMMUM, "tay", { label: "Мнения мазхабов →", hash: "madhab-tayammum", name: "Таяммум", sand: true }),
-    namaz: Lesson(document.getElementById("lessonNamaz"), NAMAZ, "namaz", { label: "Проверить себя →", hash: "quiz", name: "Намаз", poses: true })
+    namaz: Lesson(document.getElementById("lessonNamaz"), NAMAZ, "namaz", { label: "Условия и столпы →", hash: "namaz-rules", name: "Намаз", poses: true })
   };
   /* ---------- Madhab-aware blocks ---------- */
   function renderFardBox(listId, titleId, noteId, data, label) {
@@ -2236,6 +2458,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     renderFardBox("fardGhusl", "fardGhuslTitle", "fardGhuslNote", FARD_G, "гусля");
     renderFardBox("fardTay", "fardTayTitle", null, FARD_T, "таяммума");
     renderFardBox("fardNamaz", "fardNamazTitle", "fardNamazNote", FARD_P, "намаза");
+    renderArc();
     document.querySelectorAll("[data-mzt]").forEach(function (n) {
       try { var o = JSON.parse(n.getAttribute("data-mzt")); var t = o[MZ] || o.all; if (t) n.textContent = t; } catch (e) {}
     });
@@ -2315,6 +2538,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       gEl("gText").textContent = ({ "Вуду": "Вуду совершено. Теперь можно читать намаз.", "Гусль": "Гусль совершён. Теперь можно читать намаз.", "Таяммум": "Таяммум совершён. Теперь можно читать намаз.", "Намаз": "Намаз завершён. Да примет Аллах ваш намаз!" })[G.name] || "";
       gEl("gArabic").hidden = true;
       gEl("gCount").hidden = true;
+      gEl("gPose").hidden = true;
       gEl("gPrev").disabled = false;
       gEl("gNext").textContent = "Закрыть";
       if (G.voice) speak("Да примет Аллах!", "ru-RU");
@@ -2326,6 +2550,8 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     gEl("gProg").textContent = G.name + " · шаг " + (G.i + 1) + " из " + steps.length;
     gEl("gBar").style.width = (G.i / steps.length * 100) + "%";
     gEl("gAr").textContent = s.ar;
+    gEl("gPose").hidden = !s.pose;
+    if (s.pose) gEl("gPose").innerHTML = '<svg viewBox="0 0 200 200"><g>' + POSES[s.pose] + "</g></svg>";
     gEl("gTitle").textContent = s.title;
     gEl("gText").textContent = s.how.slice(0, 2).join(" ");
     if (s.arabic) {
@@ -2551,7 +2777,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   }
 
   /* ---------- Routing ---------- */
-  var VIEWS = ["learn", "ghusl", "tayammum", "namaz", "women", "rules", "madhab", "glossary", "practice", "quiz"];
+  var VIEWS = ["learn", "ghusl", "tayammum", "namaz", "namaz-lesson", "namaz-rules", "namaz-women", "women", "rules", "madhab", "glossary", "practice", "quiz"];
   var ALIAS = { breakers: "rules" };
   function route() {
     var h = (location.hash || "").replace("#", "");
@@ -2559,14 +2785,21 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     if (h === "quiz-men") { v = "quiz"; mode = "men"; }
     if (h === "quiz-women") { v = "quiz"; mode = "women"; }
     if (/^m-|^madhab-/.test(h)) { v = "madhab"; target = document.getElementById(h); }
+    if (!h && MODE === "namaz") v = "namaz";
     if (VIEWS.indexOf(v) < 0) v = "learn";
+    var issue = /^m-/.test(h) ? ISSUES.filter(function (x) { return "m-" + x.id === h; })[0] : null;
+    if (NAMAZ_V.indexOf(v) >= 0 || h === "madhab-namaz" || (issue && issue.group === "namaz")) setAppMode("namaz");
+    else if (WUDU_V.indexOf(v) >= 0 || (issue && issue.group !== "namaz") || (/^madhab-/.test(h) && h !== "madhab-namaz")) setAppMode("wudu");
+    else setAppMode(MODE);
     VIEWS.forEach(function (name) { document.getElementById("v-" + name).hidden = name !== v; });
     var tab = v === "practice" ? "quiz" : v;
     document.querySelectorAll("nav.tabs a").forEach(function (a) {
-      if (a.getAttribute("data-view") === tab) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+      var match = a.getAttribute("data-view") === tab;
+      if (match && v === "madhab" && a.getAttribute("href") === "#madhab-namaz" && MODE !== "namaz") match = false;
+      if (match) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
     });
-    if (lessons[v]) lessons[v].refresh();
-    var act = document.querySelector('nav.tabs a[aria-current="page"]');
+    if (lessons[v === "namaz-lesson" ? "namaz" : v]) lessons[v === "namaz-lesson" ? "namaz" : v].refresh();
+    var act = document.querySelector('nav.tabs .seg:not([hidden]) a[aria-current="page"]');
     if (act && act.parentNode.scrollWidth > act.parentNode.clientWidth) {
       var par = act.parentNode; par.scrollTo({ left: act.offsetLeft - (par.clientWidth - act.offsetWidth) / 2, behavior: "smooth" });
     }

@@ -1,5 +1,5 @@
 // Offline support: the page is fetched fresh when online and served from cache when offline.
-const CACHE = "wudu-v4";
+const CACHE = "wudu-v5";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon.svg", "./icons/icon-192.png", "./icons/icon-512.png"];
 
 self.addEventListener("install", (e) => {
