@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Учимся омовению</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Commissioner:wght@400;500;600&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout: one narrow column; sticky tab bar; a figure that lights up the body part for each step */
+:root {
+  --bg: #eef3f2;
+  --surface: #ffffff;
+  --ink: #12302e;
+  --muted: #557370;
+  --line: #d3e0de;
+  --accent: #0d7a78;
+  --accent-soft: #d6eeec;
+  --gold: #a67a1c;
+  --gold-soft: #f4ead2;
+  --skin: #e9c9a8;
+  --cloth: #b9cbc8;
+  --good: #1f7a3d;
+  --good-soft: #dcf1e2;
+  --bad: #b23a2e;
+  --bad-soft: #f8e1dd;
+  --f-display: "Lora", Georgia, "Times New Roman", serif;
+  --f-body: "Commissioner", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-arabic: "Amiri", "Traditional Arabic", "Noto Naskh Arabic", serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1a1a; --surface: #142625; --ink: #e3efed; --muted: #93b0ac; --line: #24403e;
+    --accent: #43c2bd; --accent-soft: #163b39; --gold: #e0b55a; --gold-soft: #3a3020;
+    --skin: #b8916e; --cloth: #3c5552; --good: #5fcf85; --good-soft: #17352a; --bad: #ef7d70; --bad-soft: #3d1f1b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1a1a; --surface: #142625; --ink: #e3efed; --muted: #93b0ac; --line: #24403e;
+  --accent: #43c2bd; --accent-soft: #163b39; --gold: #e0b55a; --gold-soft: #3a3020;
+  --skin: #b8916e; --cloth: #3c5552; --good: #5fcf85; --good-soft: #17352a; --bad: #ef7d70; --bad-soft: #3d1f1b;
+  color-scheme: dark;
+}
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 16px/1.55 var(--f-body);
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+.wrap {
+  max-width: 720px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.2; margin: 0; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+header.top { padding-block: 22px 6px; display: grid; gap: 6px; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+header.top h1 { font-size: clamp(26px, 6vw, 34px); }
+header.top .ar { font-family: var(--f-arabic); font-size: 22px; color: var(--gold); line-height: 1; }
+header.top p { color: var(--muted); max-width: 60ch; }
+
+nav.tabs {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+}
+nav.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs .wrap::-webkit-scrollbar { display: none; }
+nav.tabs a {
+  flex: 0 0 auto; padding: 12px 12px 10px; text-decoration: none; color: var(--muted);
+  font-weight: 600; font-size: 15px; border-bottom: 3px solid transparent;
+}
+nav.tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+main { padding-block: 18px 48px; }
+section.view { display: grid; gap: 18px; }
+
+/* ---------- Learn ---------- */
+.progress { display: flex; gap: 5px; }
+.progress button {
+  flex: 1; height: 8px; border-radius: 4px; border: 0; padding: 0; cursor: pointer;
+  background: var(--line);
+}
+.progress button.seen { background: var(--accent-soft); }
+.progress button.cur { background: var(--accent); }
+.stepcount { display: flex; justify-content: space-between; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+.lesson { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 560px) { .lesson { grid-template-columns: 1fr; } .figure { max-width: 190px; margin: 0 auto; } }
+.figure { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px; }
+.figure svg { display: block; width: 100%; height: auto; }
+.figure .cap { text-align: center; font-size: 13px; color: var(--muted); margin-top: 4px; }
+.sk { fill: var(--skin); }
+.cl { fill: var(--cloth); }
+.skl { stroke: var(--skin); fill: none; stroke-linecap: round; }
+.cll { stroke: var(--cloth); fill: none; stroke-linecap: round; }
+.feat { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; opacity: .55; }
+.z { transition: fill .3s, stroke .3s; }
+.z.on { fill: var(--accent); }
+.skl.z.on { stroke: var(--accent); fill: none; }
+.heart { fill: transparent; }
+.heart.on { fill: var(--gold); }
+@media (prefers-reduced-motion: no-preference) {
+  .z.on, .heart.on { animation: pulse 1.6s ease-in-out infinite; }
+}
+@keyframes pulse { 50% { opacity: .55; } }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge { font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px; }
+.b-fard { background: var(--accent-soft); color: var(--accent); }
+.b-sunna { background: var(--gold-soft); color: var(--gold); }
+.b-times { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.card h2 { font-size: 24px; }
+.card h2 small { display: block; font: 500 13px var(--f-body); color: var(--muted); margin-bottom: 4px; letter-spacing: .06em; text-transform: uppercase; }
+.how { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.arabic {
+  background: var(--bg); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px;
+}
+.arabic .ar { font-family: var(--f-arabic); font-size: 24px; direction: rtl; text-align: right; line-height: 1.7; }
+.arabic .tr { font-style: italic; }
+.arabic .ru { color: var(--muted); font-size: 14px; }
+.note { font-size: 14px; padding: 10px 12px; border-radius: 10px; }
+.note.mist { background: var(--bad-soft); }
+.note.mist strong { color: var(--bad); }
+.note.mad { background: var(--accent-soft); }
+.navbtns { display: flex; gap: 10px; }
+.btn {
+  border: 1px solid var(--line); background: var(--surface); padding: 12px 16px; border-radius: 12px;
+  font-weight: 600; cursor: pointer; flex: 1;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn:disabled { opacity: .4; cursor: default; }
+
+.fardbox { display: grid; gap: 10px; }
+.fardbox h3 { font-size: 19px; }
+.fardlist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.fardlist div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font-size: 14px; }
+.fardlist b { display: block; font-family: var(--f-display); font-size: 16px; }
+
+/* ---------- Practice ---------- */
+.lead { color: var(--muted); }
+.seq { display: grid; gap: 6px; counter-reset: s; min-height: 20px; }
+.seq li { list-style: none; display: flex; gap: 10px; align-items: center; background: var(--good-soft); border-radius: 10px; padding: 8px 12px; font-weight: 500; }
+.seq li::before { counter-increment: s; content: counter(s); font-variant-numeric: tabular-nums; font-weight: 700; color: var(--good); min-width: 1.4em; }
+.seq { padding: 0; margin: 0; }
+.pool { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 9px 14px; cursor: pointer; font-weight: 500;
+}
+.chip.wrong { background: var(--bad-soft); border-color: var(--bad); }
+@media (prefers-reduced-motion: no-preference) { .chip.wrong { animation: shake .35s; } }
+@keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.status { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.done { background: var(--good-soft); border-radius: 14px; padding: 16px; display: grid; gap: 10px; }
+.done h3 { font-size: 20px; }
+
+/* ---------- Quiz ---------- */
+.qopts { display: grid; gap: 8px; }
+.qopt { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 12px 14px; cursor: pointer; }
+.qopt.right { background: var(--good-soft); border-color: var(--good); }
+.qopt.wrongp { background: var(--bad-soft); border-color: var(--bad); }
+.qopt:disabled { cursor: default; color: var(--ink); }
+.explain { font-size: 14px; background: var(--bg); border-radius: 10px; padding: 10px 12px; }
+.score { font-family: var(--f-display); font-size: 44px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+/* ---------- Breakers ---------- */
+.list { display: grid; gap: 8px; padding: 0; margin: 0; }
+.list li { list-style: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; }
+.list li b { font-weight: 600; }
+.list li span { font-size: 14px; color: var(--muted); }
+.list.no li { border-left: 4px solid var(--good); }
+.list.yes li { border-left: 4px solid var(--bad); }
+.sub { display: grid; gap: 10px; }
+.sub h3 { font-size: 20px; }
+footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; }
+</style>
+</head>
+<body>
+
+<header class="top wrap">
+  <span class="ar" lang="ar">الوضوء</span>
+  <h1>Учимся омовению</h1>
+  <p>Малое омовение (вуду, тахарат) по шагам: что делать, в каком порядке и сколько раз. Подходит для тех, кто только начинает совершать намаз.</p>
+</header>
+
+<nav class="tabs" aria-label="Разделы">
+  <div class="wrap">
+    <a href="#learn" data-view="learn">Обучение</a>
+    <a href="#practice" data-view="practice">Порядок</a>
+    <a href="#quiz" data-view="quiz">Тест</a>
+    <a href="#breakers" data-view="breakers">Что нарушает</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- LEARN -->
+  <section class="view" id="v-learn">
+    <div class="stepcount"><span id="stepNum">Шаг 1 из 11</span><span id="seenNum"></span></div>
+    <div class="progress" id="progress" role="tablist" aria-label="Шаги"></div>
+
+    <div class="lesson">
+      <div class="figure" aria-hidden="true">
+        <svg viewBox="0 0 200 320" id="fig">
+          <!-- legs -->
+          <line class="cll" x1="88" y1="205" x2="85" y2="284" stroke-width="22"/>
+          <line class="cll" x1="112" y1="205" x2="115" y2="284" stroke-width="22"/>
+          <!-- feet with ankles -->
+          <g class="z sk" data-z="feet">
+            <rect x="76" y="280" width="18" height="16" rx="5"/>
+            <rect x="106" y="280" width="18" height="16" rx="5"/>
+            <ellipse cx="80" cy="298" rx="15" ry="7"/>
+            <ellipse cx="120" cy="298" rx="15" ry="7"/>
+          </g>
+          <!-- torso -->
+          <path class="cl" d="M62 110 Q100 100 138 110 L132 212 Q100 220 68 212 Z"/>
+          <path class="heart" data-z="heart" d="M112 132 c0-5 7-6 8-1 c1-5 8-4 8 1 c0 5-8 9-8 11 c0-2-8-6-8-11z"/>
+          <!-- upper arms -->
+          <line class="skl" x1="64" y1="116" x2="47" y2="168" stroke-width="16"/>
+          <line class="skl" x1="136" y1="116" x2="153" y2="168" stroke-width="16"/>
+          <!-- forearms incl. elbows -->
+          <line class="skl z" data-z="arms" x1="47" y1="166" x2="40" y2="222" stroke-width="15"/>
+          <line class="skl z" data-z="arms" x1="153" y1="166" x2="160" y2="222" stroke-width="15"/>
+          <!-- hands -->
+          <ellipse class="sk z" data-z="hands" cx="39" cy="236" rx="10" ry="14"/>
+          <ellipse class="sk z" data-z="hands" cx="161" cy="236" rx="10" ry="14"/>
+          <!-- neck -->
+          <rect class="sk" x="92" y="88" width="16" height="18"/>
+          <!-- ears -->
+          <ellipse class="sk z" data-z="ears" cx="65" cy="62" rx="7" ry="11"/>
+          <ellipse class="sk z" data-z="ears" cx="135" cy="62" rx="7" ry="11"/>
+          <!-- face -->
+          <circle class="sk z" data-z="face" cx="100" cy="60" r="33"/>
+          <!-- hair / top of head -->
+          <path class="cl z" data-z="head" d="M67 54 A33 33 0 0 1 133 54 Q100 36 67 54 Z"/>
+          <!-- features -->
+          <circle cx="88" cy="58" r="2.4" fill="var(--ink)" opacity=".6"/>
+          <circle cx="112" cy="58" r="2.4" fill="var(--ink)" opacity=".6"/>
+          <path class="sk z" data-z="nose" d="M100 60 L95 72 Q100 75 105 72 Z" stroke="var(--ink)" stroke-opacity=".35" stroke-width="1.2"/>
+          <path class="sk z" data-z="mouth" d="M90 79 Q100 88 110 79 Q100 83 90 79 Z" stroke="var(--ink)" stroke-opacity=".45" stroke-width="1.6"/>
+        </svg>
+        <div class="cap" id="figCap"></div>
+      </div>
+
+      <article class="card" id="stepCard" aria-live="polite"></article>
+    </div>
+
+    <div class="navbtns">
+      <button class="btn" id="prevBtn" type="button">← Назад</button>
+      <button class="btn primary" id="nextBtn" type="button">Дальше →</button>
+    </div>
+
+    <div class="fardbox">
+      <h3>Четыре обязательных действия (фарда)</h3>
+      <p class="lead">Если пропустить хотя бы одно из них, омовение недействительно. Остальные шаги — сунна: их совершение приносит награду, а пропуск не портит омовение.</p>
+      <div class="fardlist">
+        <div><b>Лицо</b>Умыть целиком один раз</div>
+        <div><b>Руки</b>До локтей включительно</div>
+        <div><b>Голова</b>Протереть не меньше ¼</div>
+        <div><b>Ноги</b>До щиколоток включительно</div>
+      </div>
+      <p class="note mad">Это перечень ханафитского мазхаба. У шафиитов обязательны также намерение и соблюдение порядка, у маликитов и ханбалитов — протирание всей головы и непрерывность.</p>
+    </div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="view" id="v-practice" hidden>
+    <div class="sub">
+      <h2>Расставьте шаги по порядку</h2>
+      <p class="lead">Нажимайте на шаги в том порядке, в котором их совершают. Неверный выбор подсветится красным.</p>
+    </div>
+    <ol class="seq" id="seq"></ol>
+    <div class="status" id="pStatus"></div>
+    <div class="pool" id="pool"></div>
+    <div class="done" id="pDone" hidden>
+      <h3>Порядок собран!</h3>
+      <p id="pDoneText"></p>
+      <button class="btn primary" type="button" id="pRestart">Ещё раз</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="view" id="v-quiz" hidden>
+    <div class="stepcount"><span id="qNum"></span><span id="qScore"></span></div>
+    <article class="card" id="qCard"></article>
+  </section>
+
+  <!-- BREAKERS -->
+  <section class="view" id="v-breakers" hidden>
+    <div class="sub">
+      <h2>Что нарушает омовение</h2>
+      <p class="lead">После этого нужно совершить омовение заново, прежде чем читать намаз.</p>
+      <ul class="list yes">
+        <li><b>Выход чего-либо из естественных путей</b><span>Моча, кал, выход газов</span></li>
+        <li><b>Кровь, гной или сукровица</b><span>Если вытекли и растеклись с места раны</span></li>
+        <li><b>Рвота полным ртом</b><span>Если её трудно удержать во рту</span></li>
+        <li><b>Сон лёжа или облокотившись</b><span>Когда тело полностью расслаблено. Дремота сидя ровно не нарушает</span></li>
+        <li><b>Потеря сознания, обморок, опьянение</b><span>Даже кратковременные</span></li>
+        <li><b>Громкий смех во время намаза</b><span>Нарушает и намаз, и омовение (у взрослого)</span></li>
+      </ul>
+      <p class="note mad">Это положения ханафитского мазхаба. У шафиитов кровь и рвота омовение не нарушают, зато нарушает касание ладонью интимных мест и касание кожи человека противоположного пола, не являющегося махрамом.</p>
+    </div>
+    <div class="sub">
+      <h3>Не нарушает</h3>
+      <ul class="list no">
+        <li><b>Сомнение</b><span>Если вы уверены, что совершили омовение, а потом засомневались — оно в силе</span></li>
+        <li><b>Слёзы, пот, слюна</b></li>
+        <li><b>Стрижка волос и ногтей</b></li>
+        <li><b>Капля крови, которая не растеклась</b></li>
+      </ul>
+    </div>
+    <div class="sub">
+      <h3>Когда омовение обязательно</h3>
+      <ul class="list">
+        <li><b>Перед любым намазом</b><span>Обязательным и желательным, в том числе джаназа</span></li>
+        <li><b>Перед тавафом вокруг Каабы</b></li>
+        <li><b>Чтобы прикоснуться к Корану</b><span>К самому мусхафу на арабском</span></li>
+      </ul>
+      <p class="note mist">После близости, поллюции, окончания месячных и послеродового очищения малого омовения недостаточно — нужно полное омовение (гусль).</p>
+    </div>
+    <div class="sub">
+      <h3>Полезные советы</h3>
+      <ul class="list">
+        <li><b>Не расходуйте воду зря</b><span>Пророк ﷺ совершал омовение примерно одним муддом воды (около 0,75 л)</span></li>
+        <li><b>Начинайте с правой стороны</b><span>Правая рука, затем левая; правая нога, затем левая</span></li>
+        <li><b>Мойте части тела без перерыва</b><span>Чтобы предыдущая не успела высохнуть</span></li>
+        <li><b>Почистите зубы мисваком</b><span>Это сунна перед омовением</span></li>
+        <li><b>Снимите то, что не пропускает воду</b><span>Лак для ногтей, клей, краску — иначе вода не дойдёт до кожи</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  Приложение для обучения. По спорным вопросам обращайтесь к имаму своей мечети.
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var STEPS = [
+    {
+      id: "niyyah", title: "Намерение", ar: "النية", kind: "sunna", times: "в сердце",
+      zone: ["heart"], cap: "Намерение — в сердце",
+      how: ["Решите в сердце, что совершаете омовение ради Аллаха, чтобы очиститься для намаза.", "Произносить вслух не обязательно — главное, что намерение есть в сердце."],
+      madhab: "У шафиитов, маликитов и ханбалитов намерение — обязательное условие омовения."
+    },
+    {
+      id: "bismillah", title: "Бисмиллях", ar: "البسملة", kind: "sunna", times: "1 раз",
+      zone: ["mouth"], cap: "Произнесите «Бисмиллях»",
+      how: ["Перед началом скажите «Бисмиллях»."],
+      arabic: { ar: "بِسْمِ اللّٰهِ", tr: "Бисмилляh", ru: "С именем Аллаха" }
+    },
+    {
+      id: "hands", title: "Вымыть кисти рук", ar: "غسل الكفين", kind: "sunna", times: "3 раза",
+      zone: ["hands"], cap: "Кисти до запястий",
+      how: ["Вымойте обе кисти до запястий, начиная с правой.", "Промойте между пальцами и под кольцом, если оно тесное."]
+    },
+    {
+      id: "mouth", title: "Прополоскать рот", ar: "المضمضة", kind: "sunna", times: "3 раза",
+      zone: ["mouth"], cap: "Полоскание рта",
+      how: ["Наберите воду правой рукой в рот, прополощите и выплюньте.", "Каждый раз берите новую воду."],
+      mistake: "Если вы поститесь, полощите осторожно, чтобы вода не попала в горло."
+    },
+    {
+      id: "nose", title: "Промыть нос", ar: "الاستنشاق", kind: "sunna", times: "3 раза",
+      zone: ["nose"], cap: "Промывание носа",
+      how: ["Правой рукой втяните немного воды в нос.", "Высморкайтесь левой рукой."]
+    },
+    {
+      id: "face", title: "Умыть лицо", ar: "غسل الوجه", kind: "fard", times: "3 раза",
+      zone: ["face"], cap: "Всё лицо",
+      how: ["Умойте лицо обеими руками полностью.", "Границы лица: от линии роста волос до низа подбородка и от одной мочки уха до другой.", "Если есть густая борода — пропустите мокрые пальцы сквозь неё."],
+      mistake: "Частая ошибка: сухие места у висков, под подбородком и у линии волос."
+    },
+    {
+      id: "arms", title: "Вымыть руки до локтей", ar: "غسل اليدين", kind: "fard", times: "3 раза",
+      zone: ["arms", "hands"], cap: "От пальцев до локтей включительно",
+      how: ["Сначала правую руку: от кончиков пальцев до локтя, захватывая сам локоть.", "Затем так же левую руку."],
+      mistake: "Частая ошибка: не домыть локоть или оставить сухой полоску у часов и браслета."
+    },
+    {
+      id: "head", title: "Протереть голову", ar: "مسح الرأس", kind: "fard", times: "1 раз",
+      zone: ["head"], cap: "Протирание (масх) головы",
+      how: ["Смочите руки и проведите мокрыми ладонями по голове ото лба к затылку и обратно.", "Голову не моют, а только протирают влажными руками — один раз."],
+      madhab: "По ханафитскому мазхабу обязательно протереть не меньше четверти головы, сунна — всю. У маликитов и ханбалитов обязательно протереть всю голову."
+    },
+    {
+      id: "ears", title: "Протереть уши", ar: "مسح الأذنين", kind: "sunna", times: "1 раз",
+      zone: ["ears"], cap: "Протирание ушей",
+      how: ["Указательными пальцами протрите внутреннюю часть ушей, большими — внешнюю.", "Можно использовать ту же влагу, что осталась после головы."]
+    },
+    {
+      id: "feet", title: "Вымыть ноги", ar: "غسل الرجلين", kind: "fard", times: "3 раза",
+      zone: ["feet"], cap: "До щиколоток включительно",
+      how: ["Сначала правую ногу, затем левую: от пальцев до щиколоток, захватывая сами щиколотки.", "Мизинцем левой руки промойте между пальцами ног.", "Хорошо промойте пятки."],
+      mistake: "Пророк ﷺ предупреждал: «Горе пяткам от огня!» — их часто оставляют сухими."
+    },
+    {
+      id: "dua", title: "Дуа после омовения", ar: "الدعاء", kind: "sunna", times: "1 раз",
+      zone: ["heart"], cap: "Свидетельство веры",
+      how: ["Повернитесь в сторону Киблы и произнесите свидетельство.", "Кто произнесёт его после омовения, для того откроются восемь врат Рая (хадис, Муслим)."],
+      arabic: {
+        ar: "أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+        tr: "Ашхаду ан ля иляха илляЛлаху вахдаху ля шарика лях, ва ашхаду анна Мухаммадан 'абдуху ва расулюх",
+        ru: "Свидетельствую, что нет божества, кроме Аллаха, Единого, у Которого нет сотоварища, и свидетельствую, что Мухаммад — Его раб и посланник"
+      }
+    }
+  ];
+
+  var QUIZ = [
+    { q: "Сколько обязательных действий (фардов) в омовении по ханафитскому мазхабу?", o: ["Два", "Четыре", "Шесть", "Десять"], a: 1,
+      e: "Четыре: умыть лицо, вымыть руки до локтей, протереть четверть головы и вымыть ноги до щиколоток." },
+    { q: "До какого места моют руки?", o: ["До запястий", "До середины предплечья", "До локтей включительно", "До плеч"], a: 2,
+      e: "Руки моют от кончиков пальцев до локтей, захватывая сами локти." },
+    { q: "Сколько раз протирают голову?", o: ["Один раз", "Два раза", "Три раза", "Голову моют, а не протирают"], a: 0,
+      e: "Голову протирают влажными руками один раз. Остальные части тела желательно мыть по три раза." },
+    { q: "С какой стороны начинают мыть руки и ноги?", o: ["С левой", "С правой", "Без разницы", "Обе одновременно"], a: 1,
+      e: "Начинать с правой стороны — сунна Пророка ﷺ." },
+    { q: "Что делают в самом начале омовения?", o: ["Моют ноги", "Умывают лицо", "Делают намерение и говорят «Бисмиллях»", "Протирают уши"], a: 2,
+      e: "Омовение начинают с намерения в сердце и слов «Бисмиллях»." },
+    { q: "Каковы границы лица при омовении?", o: ["Только лоб, щёки и подбородок", "От роста волос до подбородка и от уха до уха", "Лицо и шея", "Лицо вместе с ушами"], a: 1,
+      e: "Лицо — от линии роста волос до низа подбородка и от мочки одного уха до мочки другого." },
+    { q: "До какого места моют ноги?", o: ["До колен", "До щиколоток включительно", "Только ступни", "Достаточно протереть"], a: 1,
+      e: "Ноги моют до щиколоток, захватывая сами щиколотки, промывая между пальцами и пятки." },
+    { q: "Нарушает ли омовение сон лёжа?", o: ["Да", "Нет", "Только если сон длинный", "Только ночью"], a: 0,
+      e: "Сон лёжа или облокотившись нарушает омовение, потому что тело полностью расслаблено." },
+    { q: "Можно ли расходовать много воды, если вы у реки?", o: ["Да, вода же бесплатная", "Нет, расточительство порицается даже у реки", "Да, чем больше, тем лучше", "Только летом"], a: 1,
+      e: "Пророк ﷺ осудил излишний расход воды при омовении, даже если человек стоит у текущей реки (хадис, Ибн Маджа)." },
+    { q: "Ноготь покрыт обычным лаком. Будет ли омовение действительным?", o: ["Да", "Нет, лак не пропускает воду", "Да, если лак светлый", "Только у мужчин"], a: 1,
+      e: "Вода должна касаться кожи и ногтей. Обычный лак её не пропускает, поэтому его нужно снять." }
+  ];
+
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  /* ---------- Learn ---------- */
+  var cur = Math.min(store.get("wudu-step", 0), STEPS.length - 1);
+  var seen = store.get("wudu-seen", []);
+  var progress = document.getElementById("progress");
+
+  STEPS.forEach(function (s, i) {
+    var b = el("button");
+    b.type = "button";
+    b.setAttribute("aria-label", "Шаг " + (i + 1) + ": " + s.title);
+    b.addEventListener("click", function () { go(i); });
+    progress.appendChild(b);
+  });
+
+  function renderStep() {
+    var s = STEPS[cur];
+    if (seen.indexOf(cur) < 0) { seen.push(cur); store.set("wudu-seen", seen); }
+    store.set("wudu-step", cur);
+
+    document.getElementById("stepNum").textContent = "Шаг " + (cur + 1) + " из " + STEPS.length;
+    document.getElementById("seenNum").textContent = "Изучено: " + seen.length + "/" + STEPS.length;
+    Array.prototype.forEach.call(progress.children, function (b, i) {
+      b.className = (i === cur ? "cur" : "") + (seen.indexOf(i) >= 0 ? " seen" : "");
+      b.setAttribute("aria-current", i === cur ? "step" : "false");
+    });
+
+    document.querySelectorAll("#fig [data-z]").forEach(function (n) {
+      n.classList.toggle("on", s.zone.indexOf(n.getAttribute("data-z")) >= 0);
+    });
+    document.getElementById("figCap").textContent = s.cap;
+
+    var card = document.getElementById("stepCard");
+    card.innerHTML = "";
+    var badges = el("div", "badges");
+    badges.appendChild(el("span", "badge " + (s.kind === "fard" ? "b-fard" : "b-sunna"), s.kind === "fard" ? "ФАРД · обязательно" : "СУННА · желательно"));
+    badges.appendChild(el("span", "badge b-times", s.times));
+    card.appendChild(badges);
+
+    var h = el("h2");
+    var sm = el("small", null, s.ar);
+    sm.lang = "ar";
+    sm.style.fontFamily = "var(--f-arabic)";
+    sm.style.fontSize = "18px";
+    sm.style.textTransform = "none";
+    sm.style.letterSpacing = "0";
+    h.appendChild(sm);
+    h.appendChild(document.createTextNode(s.title));
+    card.appendChild(h);
+
+    var ul = el("ol", "how");
+    s.how.forEach(function (t) { ul.appendChild(el("li", null, t)); });
+    card.appendChild(ul);
+
+    if (s.arabic) {
+      var a = el("div", "arabic");
+      var ar = el("div", "ar", s.arabic.ar); ar.lang = "ar";
+      a.appendChild(ar);
+      a.appendChild(el("div", "tr", s.arabic.tr));
+      a.appendChild(el("div", "ru", s.arabic.ru));
+      card.appendChild(a);
+    }
+    if (s.mistake) {
+      var m = el("p", "note mist");
+      m.appendChild(el("strong", null, "Внимание: "));
+      m.appendChild(document.createTextNode(s.mistake));
+      card.appendChild(m);
+    }
+    if (s.madhab) card.appendChild(el("p", "note mad", s.madhab));
+
+    document.getElementById("prevBtn").disabled = cur === 0;
+    var next = document.getElementById("nextBtn");
+    next.textContent = cur === STEPS.length - 1 ? "Пройти тест →" : "Дальше →";
+  }
+
+  function go(i) { cur = Math.max(0, Math.min(STEPS.length - 1, i)); renderStep(); }
+  document.getElementById("prevBtn").addEventListener("click", function () { go(cur - 1); });
+  document.getElementById("nextBtn").addEventListener("click", function () {
+    if (cur === STEPS.length - 1) { location.hash = "quiz"; } else { go(cur + 1); }
+  });
+
+  /* ---------- Practice ---------- */
+  var pNext, pErrors;
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function startPractice() {
+    pNext = 0; pErrors = 0;
+    document.getElementById("seq").innerHTML = "";
+    document.getElementById("pDone").hidden = true;
+    var pool = document.getElementById("pool");
+    pool.innerHTML = "";
+    shuffle(STEPS.map(function (s, i) { return i; })).forEach(function (i) {
+      var c = el("button", "chip", STEPS[i].title);
+      c.type = "button";
+      c.addEventListener("click", function () { pick(i, c); });
+      pool.appendChild(c);
+    });
+    pStatus();
+  }
+  function pStatus() {
+    document.getElementById("pStatus").textContent = "Собрано " + pNext + " из " + STEPS.length + (pErrors ? " · ошибок: " + pErrors : "");
+  }
+  function pick(i, chip) {
+    if (i === pNext) {
+      document.getElementById("seq").appendChild(el("li", null, STEPS[i].title));
+      chip.remove();
+      pNext++;
+      if (pNext === STEPS.length) {
+        document.getElementById("pDone").hidden = false;
+        document.getElementById("pDoneText").textContent = pErrors === 0
+          ? "Без единой ошибки. Машаллах!"
+          : "Ошибок: " + pErrors + ". Повторите урок и попробуйте ещё раз.";
+      }
+    } else {
+      pErrors++;
+      chip.classList.remove("wrong");
+      void chip.offsetWidth;
+      chip.classList.add("wrong");
+      setTimeout(function () { chip.classList.remove("wrong"); }, 600);
+    }
+    pStatus();
+  }
+  document.getElementById("pRestart").addEventListener("click", startPractice);
+
+  /* ---------- Quiz ---------- */
+  var qi = 0, qRight = 0;
+  function renderQuiz() {
+    var card = document.getElementById("qCard");
+    card.innerHTML = "";
+    if (qi >= QUIZ.length) {
+      document.getElementById("qNum").textContent = "Тест завершён";
+      document.getElementById("qScore").textContent = "";
+      card.appendChild(el("div", "score", qRight + " / " + QUIZ.length));
+      var msg = qRight === QUIZ.length ? "Отлично! Вы хорошо знаете правила омовения."
+        : qRight >= 7 ? "Хороший результат. Повторите шаги, где были ошибки."
+        : "Стоит ещё раз пройти урок по шагам.";
+      card.appendChild(el("p", null, msg));
+      var row = el("div", "navbtns");
+      var again = el("button", "btn primary", "Пройти снова"); again.type = "button";
+      again.addEventListener("click", function () { qi = 0; qRight = 0; renderQuiz(); });
+      var learn = el("button", "btn", "К уроку"); learn.type = "button";
+      learn.addEventListener("click", function () { location.hash = "learn"; });
+      row.appendChild(learn); row.appendChild(again);
+      card.appendChild(row);
+      var best = store.get("wudu-best", 0);
+      if (qRight > best) store.set("wudu-best", qRight);
+      return;
+    }
+    var q = QUIZ[qi];
+    document.getElementById("qNum").textContent = "Вопрос " + (qi + 1) + " из " + QUIZ.length;
+    document.getElementById("qScore").textContent = "Верно: " + qRight;
+    card.appendChild(el("h2", null, q.q));
+    var opts = el("div", "qopts");
+    var buttons = [];
+    q.o.forEach(function (t, i) {
+      var b = el("button", "qopt", t); b.type = "button";
+      b.addEventListener("click", function () {
+        buttons.forEach(function (x) { x.disabled = true; });
+        buttons[q.a].classList.add("right");
+        if (i === q.a) qRight++; else b.classList.add("wrongp");
+        document.getElementById("qScore").textContent = "Верно: " + qRight;
+        card.appendChild(el("p", "explain", (i === q.a ? "Верно. " : "Неверно. ") + q.e));
+        var n = el("button", "btn primary", qi === QUIZ.length - 1 ? "Результат" : "Следующий вопрос"); n.type = "button";
+        n.addEventListener("click", function () { qi++; renderQuiz(); });
+        card.appendChild(n);
+        n.focus();
+      });
+      buttons.push(b);
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+  }
+
+  /* ---------- Routing ---------- */
+  var VIEWS = ["learn", "practice", "quiz", "breakers"];
+  function route() {
+    var v = (location.hash || "").replace("#", "");
+    if (VIEWS.indexOf(v) < 0) v = "learn";
+    VIEWS.forEach(function (name) { document.getElementById("v-" + name).hidden = name !== v; });
+    document.querySelectorAll("nav.tabs a").forEach(function (a) {
+      if (a.getAttribute("data-view") === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    if (v === "practice" && pNext === undefined) startPractice();
+    if (v === "quiz") renderQuiz();
+  }
+  window.addEventListener("hashchange", function () { route(); window.scrollTo(0, 0); });
+
+  renderStep();
+  route();
+})();
+</script>
+</body>
+</html>
