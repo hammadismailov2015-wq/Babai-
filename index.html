@@ -5,6 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Учимся омовению</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Вуду, гусль и таяммум по шагам: доводы из Корана и Сунны, мнения четырёх мазхабов, раздел для женщин и тесты.">
+<meta name="theme-color" content="#083b3a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Омовение">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Учимся омовению">
+<meta property="og:description" content="Вуду, гусль и таяммум по шагам — с доводами и мнениями четырёх мазхабов.">
+<meta property="og:url" content="https://hammadismailov2015-wq.github.io/Babai-/">
+<meta property="og:image" content="https://hammadismailov2015-wq.github.io/Babai-/icons/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prata&family=Commissioner:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap">
@@ -383,6 +398,100 @@ details.args[open] summary::after { content: "−"; }
 .arg b { color: var(--gold); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
 .arg cite { font-style: normal; font-size: 13px; color: var(--muted); }
 .issue.flash { box-shadow: 0 0 0 3px var(--gold); }
+/* ---------- v3: madhab picker, ayah, tayammum, glossary, guided mode ---------- */
+:root { --sand: #c9a46a; --sand-soft: #f3ead9; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sand: #d9b77e; --sand-soft: #3a3020; } }
+:root[data-theme="dark"] { --sand: #d9b77e; --sand-soft: #3a3020; }
+.noscroll, .noscroll body { overflow: hidden; }
+nav.tabs .seg { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+@media (max-width: 760px) { nav.tabs .seg { grid-template-columns: repeat(4, minmax(0, 1fr)); } nav.tabs a { font-size: 13px; padding: 8px 2px; } }
+
+.mzpick { display: grid; gap: 6px; margin-top: 8px; }
+.mzpick > span { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+.mzpick > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 4px; max-width: 460px; }
+.mzpick button { border: 0; background: transparent; color: var(--hero-ink); font-weight: 600; font-size: 14px; padding: 8px 2px; border-radius: 10px; cursor: pointer; }
+.mzpick button[aria-pressed="true"] { background: var(--gold); color: var(--hero-a); }
+.herotools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.herotools button { border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: var(--hero-ink); font-weight: 600; font-size: 13px; padding: 7px 12px; border-radius: 999px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.herotools svg { width: 15px; height: 15px; fill: currentColor; }
+
+.ayah { gap: 10px; background: linear-gradient(180deg, var(--gold-soft), var(--surface) 55%); }
+.ayah-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; align-items: baseline; }
+.ayah-top .lbl { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+.ayah-top .src { font-size: 13px; color: var(--muted); }
+.ayah-ar { font-family: var(--f-arabic); font-size: clamp(22px, 6vw, 28px); line-height: 2; text-align: center; }
+.ayah-ru { font-family: var(--f-display); font-size: 16px; line-height: 1.6; text-align: center; }
+.aseg { font: inherit; border: 0; padding: 0 4px; border-radius: 8px; cursor: pointer; color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 -2px 0 var(--accent); }
+.aseg.on { background: var(--water); color: var(--surface); box-shadow: none; }
+.ayah-hint, .ayah-note { font-size: 13px; color: var(--muted); text-align: center; }
+.ayah-note { color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; text-align: left; }
+
+.lessontools { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.gobtn { border: 0; cursor: pointer; font-weight: 700; color: var(--surface); background: linear-gradient(135deg, var(--hero-b), var(--hero-a)); padding: 11px 16px; border-radius: 14px; display: inline-flex; gap: 8px; align-items: center; box-shadow: var(--shadow); }
+.gobtn svg { width: 18px; height: 18px; fill: var(--gold); }
+.mzbadge { font-size: 12px; font-weight: 700; color: var(--gold); background: var(--gold-soft); padding: 4px 10px; border-radius: 999px; }
+.b-wajib { background: var(--accent-soft); color: var(--accent); }
+.grade { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--good); background: var(--good-soft); border-radius: 999px; padding: 1px 7px; margin-left: 6px; white-space: nowrap; }
+
+.fardlist { grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); }
+@media (max-width: 580px) { .fardlist { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fardlist.odd > div:last-child { grid-column: 1 / -1; } }
+
+.intro.sand { background: linear-gradient(135deg, var(--sand-soft), var(--surface) 70%); }
+.figure.sand { background: radial-gradient(90% 60% at 50% 20%, var(--sand-soft), var(--surface) 75%); }
+.figure.sand .z.on { fill: var(--sand); stroke: var(--gold); }
+.figure.sand .skl.z.on { stroke: var(--sand); fill: none; }
+.figure.sand .drops { display: none; }
+.figure.sand .cap { color: var(--gold); }
+
+.search { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 14px; box-shadow: var(--shadow); }
+.search svg { width: 18px; height: 18px; fill: var(--muted); flex: none; }
+.search input { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; color: var(--ink); padding: 10px 0; outline: none; }
+.search:focus-within { border-color: var(--accent); }
+.gloss { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 580px) { .gloss { grid-template-columns: 1fr; } }
+.gitem { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.ghead { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.ghead b { font-family: var(--f-display); font-weight: 400; font-size: 18px; }
+.ghead .ar { font-family: var(--f-arabic); font-size: 20px; color: var(--gold); }
+.gitem p { font-size: 14px; color: var(--muted); }
+
+.mzcell.mine { box-shadow: 0 0 0 2px var(--gold); }
+.mzlegend div.mine { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%); z-index: 30;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px)); max-width: min(92vw, 520px);
+  background: var(--ink); color: var(--bg); padding: 11px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow); text-align: center;
+}
+
+.guide {
+  position: fixed; inset: 0; z-index: 40; background: var(--bg); color: var(--ink);
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-y: auto;
+}
+.gwrap { max-width: 560px; margin: 0 auto; min-height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; padding-block: 14px; }
+.gtop { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 600; color: var(--muted); font-size: 14px; }
+.gtools { display: flex; gap: 6px; }
+.gtools button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 12px; font-weight: 600; cursor: pointer; }
+.gtools button[aria-pressed="true"] { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.gbar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.gbar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .3s; }
+.gbody { display: grid; gap: 14px; align-content: center; text-align: center; justify-items: center; }
+.gar { font-family: var(--f-arabic); font-size: 34px; color: var(--gold); line-height: 1.3; }
+.gbody h2 { font-size: clamp(30px, 8vw, 42px); }
+.gbody p { font-size: 19px; line-height: 1.55; max-width: 32ch; }
+.garabic { display: grid; gap: 6px; background: var(--gold-soft); border-radius: 16px; padding: 14px; width: 100%; }
+.garabic .ar { font-family: var(--f-arabic); font-size: 26px; line-height: 1.8; direction: rtl; }
+.garabic .tr { font-style: italic; font-size: 15px; }
+.glisten { justify-self: center; border: 1px solid var(--gold); color: var(--gold); background: transparent; border-radius: 999px; padding: 7px 14px; font-weight: 700; cursor: pointer; }
+.gcount { border: 2px dashed var(--line); background: var(--surface); border-radius: 22px; padding: 18px 22px; cursor: pointer; display: grid; grid-template-columns: repeat(3, auto); justify-content: center; gap: 14px; width: 100%; }
+.gcount i { width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--water); display: block; transition: background .2s, transform .2s; }
+.gcount i.on { background: var(--water); transform: scale(1.05); }
+.gcount span { grid-column: 1 / -1; font-size: 14px; color: var(--muted); font-weight: 600; }
+.gnav { display: grid; grid-template-columns: 1fr 3fr; gap: 10px; }
+.gnav .btn { padding: 16px; font-size: 18px; }
+@media (prefers-reduced-motion: no-preference) { .gnav .btn.ready { animation: pulse 1.2s ease-in-out infinite; } }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; text-align: center; display: grid; gap: 8px; justify-items: center; }
 footer .orn { width: 120px; height: 14px; }
 footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: .7; }
@@ -394,8 +503,21 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   <div class="wrap">
     <span class="cal" lang="ar">الوُضُوء</span>
     <h1>Учимся омовению</h1>
-    <p>Малое омовение (вуду, тахарат) и полное омовение (гусль) по шагам: что делать, в каком порядке и сколько раз. С доводами из Корана и Сунны, мнениями четырёх мазхабов и разделом для женщин.</p>
-    <div class="facts"><span><b>11</b> шагов вуду</span><span><b>12</b> шагов гусля</span><span><b>4</b> мазхаба с доводами</span><span><b>2</b> теста</span></div>
+    <p>Вуду, гусль и таяммум по шагам: что делать, в каком порядке и сколько раз. С доводами из Корана и Сунны, мнениями четырёх мазхабов и разделом для женщин.</p>
+    <div class="facts"><span><b>11</b> шагов вуду</span><span><b>12</b> шагов гусля</span><span><b>6</b> шагов таяммума</span><span><b>4</b> мазхаба с доводами</span></div>
+    <div class="mzpick" role="group" aria-label="Мой мазхаб">
+      <span>Мой мазхаб</span>
+      <div>
+        <button type="button" data-mz="h">Ханафи</button>
+        <button type="button" data-mz="m">Малики</button>
+        <button type="button" data-mz="s">Шафии</button>
+        <button type="button" data-mz="hb">Ханбали</button>
+      </div>
+    </div>
+    <div class="herotools">
+      <button type="button" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>Поделиться</button>
+      <button type="button" id="installBtn" hidden><svg viewBox="0 0 24 24"><path d="M11 3h2v9l3.3-3.3 1.4 1.4L12 15.8 6.3 10.1l1.4-1.4L11 12zM5 18h14v2H5z"/></svg>Установить на телефон</button>
+    </div>
   </div>
 </header>
 
@@ -404,9 +526,11 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     <div class="seg">
       <a href="#learn" data-view="learn">Вуду</a>
       <a href="#ghusl" data-view="ghusl">Гусль</a>
+      <a href="#tayammum" data-view="tayammum">Таяммум</a>
       <a href="#women" data-view="women">Женщинам</a>
       <a href="#rules" data-view="rules">Правила</a>
       <a href="#madhab" data-view="madhab">Мазхабы</a>
+      <a href="#glossary" data-view="glossary">Словарь</a>
       <a href="#quiz" data-view="quiz">Проверка</a>
     </div>
   </div>
@@ -458,18 +582,21 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
 
   <!-- WUDU LESSON -->
   <section class="view" id="v-learn">
+    <div class="card ayah">
+      <div class="ayah-top"><span class="lbl">Аят об омовении</span><span class="src">Коран, сура «аль-Маида», 5:6</span></div>
+      <p class="ayah-ar" lang="ar" dir="rtl" id="ayahAr"></p>
+      <p class="ayah-ru" id="ayahRu"></p>
+      <p class="ayah-hint">Нажмите на выделенные слова — на фигуре подсветится часть тела, которую велит омыть аят.</p>
+      <p class="ayah-note" id="ayahNote" hidden>Слово «ва-арджуля-кум» (и ваши ноги) стоит с фатхой, как «вуджуха-кум» (ваши лица). Поэтому оно связано с глаголом «омывайте», а не с «протирайте»: ноги моют. Протирание по ногам допустимо только по хуфам.</p>
+    </div>
+
     <div class="lessonbox" id="lessonWudu"></div>
 
     <div class="fardbox">
-      <div class="section-title"><h3>Четыре фарда омовения</h3></div>
+      <div class="section-title"><h3 id="fardWuduTitle">Фарды омовения</h3></div>
       <p class="lead">Если пропустить хотя бы одно из этих действий, омовение недействительно. Остальные шаги — сунна: за них есть награда, а пропуск не портит омовение.</p>
-      <div class="fardlist">
-        <div><span class="ar" lang="ar">الوجه</span><b>Лицо</b>Умыть целиком</div>
-        <div><span class="ar" lang="ar">اليدان</span><b>Руки</b>До локтей включительно</div>
-        <div><span class="ar" lang="ar">الرأس</span><b>Голова</b>Протереть не меньше ¼</div>
-        <div><span class="ar" lang="ar">الرجلان</span><b>Ноги</b>До щиколоток включительно</div>
-      </div>
-      <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span>Это перечень ханафитского мазхаба. У шафиитов обязательны также намерение и порядок, у маликитов и ханбалитов — протирание всей головы и непрерывность.</span></p>
+      <div class="fardlist" id="fardWudu"></div>
+      <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span id="fardWuduNote"></span></p>
     </div>
   </section>
 
@@ -494,14 +621,11 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     <div class="lessonbox" id="lessonGhusl"></div>
 
     <div class="fardbox">
-      <div class="section-title"><h3>Три фарда гусля</h3></div>
-      <p class="lead">Без этих трёх действий гусль недействителен. Остальное — сунна.</p>
-      <div class="fardlist three">
-        <div><span class="ar" lang="ar">المضمضة</span><b>Рот</b>Прополоскать целиком</div>
-        <div><span class="ar" lang="ar">الاستنشاق</span><b>Нос</b>Промыть до твёрдой части</div>
-        <div><span class="ar" lang="ar">البدن</span><b>Тело</b>Омыть без сухих мест</div>
-      </div>
-      <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span>Это перечень ханафитского мазхаба. У шафиитов и маликитов полоскание рта и носа — сунна, а обязательны намерение и омовение всего тела.</span></p>
+      <div class="section-title"><h3 id="fardGhuslTitle">Фарды гусля</h3></div>
+      <p class="lead">Без этих действий гусль недействителен. Остальное — сунна.</p>
+      <div class="fardlist" id="fardGhusl"></div>
+      <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span id="fardGhuslNote"></span></p>
+      <div class="mzjump"><a href="#m-ghuslmouth">Рот и нос в гусле</a><a href="#m-niyyah">Намерение</a><a href="#m-braids">Косы</a></div>
     </div>
 
     <div class="sub">
@@ -523,6 +647,87 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
         <li><b>При принятии ислама</b><span>Обязателен, если человек был в состоянии джанаба</span></li>
       </ul>
     </div>
+  </section>
+
+  <!-- TAYAMMUM -->
+  <section class="view" id="v-tayammum" hidden>
+    <div class="intro sand">
+      <span class="ar" lang="ar">التَّيَمُّم</span>
+      <h2>Таяммум — очищение землёй</h2>
+      <p>Если воды нет или её нельзя использовать, таяммум заменяет и вуду, и гусль. Совершается он одинаково в обоих случаях — меняется только намерение.</p>
+    </div>
+    <div class="dalil">
+      <span class="lbl">Довод</span>
+      <q>«…Если вы больны или находитесь в пути… и не нашли воды, то совершайте таяммум чистой землёй и протрите ваши лица и руки. Аллах не желает создавать для вас трудности»</q>
+      <cite>Коран, 5:6</cite>
+      <q>«Земля сделана для меня местом молитвы и средством очищения»</q>
+      <cite>аль-Бухари 335, Муслим 521</cite>
+    </div>
+
+    <div class="sub">
+      <div class="section-title"><h3>Когда разрешён таяммум</h3></div>
+      <ul class="list">
+        <li><b>Воды нет поблизости</b><span>По ханафитам — если до воды около мили (примерно 2 км) и больше</span></li>
+        <li><b>Вода навредит</b><span>При болезни или ране, если вода усилит болезнь или затянет выздоровление — по опыту или словам врача</span></li>
+        <li><b>Сильный холод</b><span>Если нельзя согреть воду и есть угроза здоровью. Амр ибн аль-Ас (р.) совершил таяммум в холодную ночь, и Пророк ﷺ одобрил это (Абу Дауд 334)</span></li>
+        <li><b>Вода нужна для питья</b><span>Своего, спутников или животных</span></li>
+        <li><b>До воды не добраться</b><span>Из-за опасности: враг, хищник, угроза имуществу</span></li>
+      </ul>
+    </div>
+
+    <div class="lessonbox" id="lessonTayammum"></div>
+
+    <div class="fardbox">
+      <div class="section-title"><h3 id="fardTayTitle">Фарды таяммума</h3></div>
+      <div class="fardlist" id="fardTay"></div>
+      <div class="mzjump"><a href="#m-tstrikes">Сколько ударов</a><a href="#m-tarms">Докуда протирать руки</a><a href="#m-tearth">Чем совершать</a><a href="#m-tprayer">Сколько намазов</a></div>
+    </div>
+
+    <div class="sub">
+      <div class="section-title"><h3>Чем можно совершать</h3></div>
+      <div class="cols">
+        <div>
+          <h4>Можно</h4>
+          <ul class="list no">
+            <li><b>Чистая земля, пыль, песок</b></li>
+            <li><b>Камень, глина, известняк</b><span>По ханафитам и маликитам — даже без пыли. По шафиитам и ханбалитам нужна пыль</span></li>
+            <li><b>Стена из кирпича или камня</b><span>Если она чистая</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Нельзя</h4>
+          <ul class="list yes">
+            <li><b>Нечистая земля</b><span>Аят требует «чистой» земли</span></li>
+            <li><b>Дерево, металл, стекло, ткань</b><span>Если на них нет пыли</span></li>
+            <li><b>Пепел, мука, зола</b><span>Это не земля</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="section-title"><h3>Что нарушает таяммум</h3></div>
+      <ul class="list yes">
+        <li><b>Всё, что нарушает вуду или гусль</b><span>Таяммум заменяет их, поэтому и нарушается тем же</span></li>
+        <li><b>Появилась вода и её можно использовать</b><span>«Чистая земля — очищение для мусульманина, даже если он не найдёт воды десять лет. А когда найдёт воду, пусть коснётся ею кожи» (Абу Дауд 332, ат-Тирмизи 124)</span></li>
+        <li><b>Исчезла причина</b><span>Например, человек выздоровел или холод прошёл</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section class="view" id="v-glossary" hidden>
+    <div class="intro">
+      <span class="ar" lang="ar">المُصْطَلَحَات</span>
+      <h2>Словарь терминов</h2>
+      <p>Слова, которые встречаются в уроках, с арабским написанием и коротким объяснением.</p>
+    </div>
+    <label class="search" for="glossQ">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2a8 8 0 0 1 6.3 12.9l5.4 5.4-1.4 1.4-5.4-5.4A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>
+      <input id="glossQ" type="search" placeholder="Найти термин, например «масх»" autocomplete="off">
+    </label>
+    <div class="gloss" id="glossList"></div>
+    <p class="lead" id="glossEmpty" hidden>Ничего не найдено. Попробуйте другое слово.</p>
   </section>
 
   <!-- WOMEN -->
@@ -592,6 +797,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     <div class="switch" role="group" aria-label="Что тренировать">
       <button type="button" id="pmWudu" aria-pressed="true">Вуду</button>
       <button type="button" id="pmGhusl" aria-pressed="false">Гусль</button>
+      <button type="button" id="pmTay" aria-pressed="false">Таяммум</button>
     </div>
     <div class="slots">
       <div class="stepcount"><span class="status" id="pStatus"></span></div>
@@ -610,23 +816,23 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   <section class="view" id="v-quiz" hidden>
     <div class="sub" id="qChoose">
       <h2>Проверьте себя</h2>
-      <p class="lead">В обоих тестах есть общие вопросы по вуду и гуслю и отдельные вопросы для мужчин или для женщин.</p>
+      <p class="lead">В обоих тестах есть общие вопросы и отдельные — для мужчин или для женщин. Ответы проверяются по мазхабу, выбранному в шапке.</p>
       <div class="choose">
         <a class="pick" href="#quiz-men">
           <span class="ar" lang="ar">لِلرِّجَال</span>
           <b>Для мужчин</b>
-          <span>14 вопросов: борода, тюбетейка, поллюция, мази, гусль</span>
+          <span>Борода, тюбетейка, поллюция, мази, гусль и таяммум</span>
           <i>Начать →</i>
         </a>
         <a class="pick rose" href="#quiz-women">
           <span class="ar" lang="ar">لِلنِّسَاء</span>
           <b>Для женщин</b>
-          <span>15 вопросов: платок, волосы, лак и хна, хайд, истихада, гусль</span>
+          <span>Платок, волосы, лак и хна, хайд, истихада, гусль и таяммум</span>
           <i>Начать →</i>
         </a>
         <a class="pick wide" href="#practice">
           <b>Порядок действий</b>
-          <span>Расставьте шаги вуду или гусля в правильном порядке</span>
+          <span>Расставьте шаги вуду, гусля или таяммума в правильном порядке</span>
           <i>Тренироваться →</i>
         </a>
       </div>
@@ -711,16 +917,9 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
 
     <div class="sub">
       <div class="section-title"><h3>Что нарушает омовение</h3></div>
-      <p class="lead">После этого нужно совершить омовение заново. Положения ханафитского мазхаба.</p>
-      <ul class="list yes">
-        <li><b>Выход чего-либо из естественных путей</b><span>Моча, кал, газы, выделения. «…или кто-нибудь из вас пришёл из уборной» (Коран, 5:6). Все мазхабы согласны</span></li>
-        <li><b>Кровь, гной или сукровица</b><span>Если вытекли и растеклись с места раны. <a href="#m-blood">Мнения и доводы →</a></span></li>
-        <li><b>Рвота полным ртом</b><span>Если её трудно удержать во рту. <a href="#m-vomit">Мнения и доводы →</a></span></li>
-        <li><b>Сон лёжа или облокотившись</b><span>Дремота сидя ровно не нарушает. <a href="#m-sleep">Мнения и доводы →</a></span></li>
-        <li><b>Потеря сознания, обморок, опьянение</b><span>Это сильнее сна, поэтому все мазхабы согласны, что они нарушают омовение</span></li>
-        <li><b>Громкий смех во время намаза</b><span>Нарушает и намаз, и омовение (у взрослого). <a href="#m-laugh">Мнения и доводы →</a></span></li>
-      </ul>
-      <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span>В других мазхабах омовение нарушают ещё касание женщины, касание своего интимного места и верблюжье мясо (у ханбалитов). <a href="#madhab-break">Все мнения →</a></span></p>
+      <p class="lead" id="breakLead"></p>
+      <ul class="list yes" id="breakList"></ul>
+      <p class="note mad"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg><span>Мазхабы расходятся в том, нарушают ли омовение кровь, рвота, касание женщины, касание интимного места, смех и верблюжье мясо. <a href="#madhab-break">Сравнить все мнения →</a></span></p>
     </div>
 
     <div class="sub">
@@ -741,6 +940,29 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
         <li><b>Чтобы прикоснуться к Корану</b><span>«Касаются его только очищенные» (Коран, 56:79)</span></li>
       </ul>
       <p class="note mist"><svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg><span>После близости, поллюции, окончания месячных и послеродового очищения нужен гусль. <a href="#ghusl">Как совершить гусль →</a></span></p>
+    </div>
+
+    <div class="sub">
+      <div class="section-title"><h3>Истинджа — очищение после нужды</h3></div>
+      <ul class="list">
+        <li><b>Перед входом в туалет</b><span>Войти левой ногой и сказать: «Аллахумма инни а‘узу бика миналь-хубси валь-хабаис» — «О Аллах, прибегаю к Тебе от скверных шайтанов мужского и женского рода» (аль-Бухари 142, Муслим 375)</span></li>
+        <li><b>Не поворачиваться к кибле</b><span>Ни лицом, ни спиной во время нужды (аль-Бухари 394, Муслим 264). Многие учёные смягчают это внутри здания</span></li>
+        <li><b>Очищаться левой рукой</b><span>Водой — лучше всего. Можно камнями или бумагой, нечётное число раз, минимум три по шафиитам и ханбалитам (Муслим 262)</span></li>
+        <li><b>Беречься от брызг мочи</b><span>Пророк ﷺ сказал о двух людях в могилах, что один из них наказывается за то, что не остерегался мочи (аль-Бухари 216, Муслим 292)</span></li>
+        <li><b>При выходе</b><span>Выйти правой ногой и сказать: «Гуфранака» — «Прошу Твоего прощения» (Абу Дауд 30, ат-Тирмизи 7)</span></li>
+        <li><b>Нечистота на теле и одежде</b><span>Перед намазом её смывают водой, пока не исчезнут её следы. Чистота тела, одежды и места — условие намаза</span></li>
+      </ul>
+    </div>
+
+    <div class="sub">
+      <div class="section-title"><h3>Протирание по хуфам</h3></div>
+      <p class="lead">Хуфы — кожаные носки, закрывающие щиколотки. Если их надели после полного вуду, при следующем омовении ноги можно не мыть, а протереть хуфы сверху.</p>
+      <ul class="list">
+        <li><b>Срок</b><span>Сутки для живущего дома и трое суток для путника: так Пророк ﷺ установил по словам Али (р.) (Муслим 276). У маликитов срока нет, но желательно снимать раз в неделю</span></li>
+        <li><b>Как протирать</b><span>Мокрыми пальцами правой руки провести по верху правого хуфа от пальцев к голени, затем левой рукой — по левому. Один раз</span></li>
+        <li><b>Что прерывает</b><span>Снятие хуфа, окончание срока, состояние джанаба (для гусля хуфы снимают)</span></li>
+        <li><b>Обычные носки</b><span>По большинству мнений тонкие тканевые носки протирать нельзя. Плотные носки, в которых можно долго идти, допускают ханбалиты и поздние ханафиты</span></li>
+      </ul>
     </div>
 
     <div class="sub">
@@ -774,6 +996,35 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   </section>
 
 </main>
+
+<div class="guide" id="guide" hidden role="dialog" aria-modal="true" aria-labelledby="gTitle">
+  <div class="gwrap">
+    <div class="gtop">
+      <span id="gProg"></span>
+      <div class="gtools">
+        <button type="button" id="gVoice" aria-pressed="false">Озвучивать</button>
+        <button type="button" id="gClose" aria-label="Закрыть">✕</button>
+      </div>
+    </div>
+    <div class="gbar"><i id="gBar"></i></div>
+    <div class="gbody" id="gBody">
+      <div class="gar" lang="ar" id="gAr"></div>
+      <h2 id="gTitle"></h2>
+      <p id="gText"></p>
+      <div class="garabic" id="gArabic" hidden>
+        <div class="ar" lang="ar" id="gArabicAr"></div>
+        <div class="tr" id="gArabicTr"></div>
+        <button type="button" class="glisten" id="gListen">Прослушать по-арабски</button>
+      </div>
+      <button type="button" class="gcount" id="gCount" aria-live="polite"></button>
+    </div>
+    <div class="gnav">
+      <button type="button" class="btn" id="gPrev">←</button>
+      <button type="button" class="btn primary" id="gNext">Дальше</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden role="status"></div>
 
 <footer class="wrap">
   <svg class="orn" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7H44M76 7H120M60 1L66 7L60 13L54 7Z M60 4L63 7L60 10L57 7Z M48 7a2 2 0 1 0 4 0a2 2 0 1 0-4 0M68 7a2 2 0 1 0 4 0a2 2 0 1 0-4 0"/></svg>
@@ -929,11 +1180,14 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     }
   ];
 
-  function q(text, opts, a, e, tag) { return { q: text, o: opts, a: a, e: e, tag: tag }; }
+  function q(text, opts, a, e, tag, only) { return { q: text, o: opts, a: a, e: e, tag: tag, only: only }; }
 
   var COMMON = [
-    q("Сколько обязательных действий (фардов) в омовении по ханафитскому мазхабу?", ["Два", "Четыре", "Шесть", "Десять"], 1,
-      "Четыре: умыть лицо, вымыть руки до локтей, протереть четверть головы и вымыть ноги до щиколоток.", "Вуду"),
+    q("Сколько фардов в вуду по {mz} мазхабу?", ["Четыре", "Шесть", "Семь", "Десять"], { h: 0, s: 1, m: 2, hb: 1 },
+      { h: "Четыре: умыть лицо, вымыть руки до локтей, протереть четверть головы и вымыть ноги до щиколоток.",
+        s: "Шесть: намерение, лицо, руки до локтей, протирание части головы, ноги и порядок.",
+        m: "Семь: намерение, лицо, руки, протирание всей головы, ноги, растирание и непрерывность.",
+        hb: "Шесть: лицо вместе со ртом и носом, руки, вся голова с ушами, ноги, порядок и непрерывность. Намерение — условие." }, "Вуду"),
     q("До какого места моют руки?", ["До запястий", "До середины предплечья", "До локтей включительно", "До плеч"], 2,
       "Руки моют от кончиков пальцев до локтей, захватывая сами локти.", "Вуду"),
     q("Сколько раз протирают голову?", ["Один раз", "Два раза", "Три раза", "Голову моют, а не протирают"], 0,
@@ -946,8 +1200,14 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       "Ноги моют до щиколоток, захватывая сами щиколотки, промывая между пальцами и пятки.", "Вуду"),
     q("Нарушает ли омовение сон лёжа?", ["Да", "Нет", "Только если сон длинный", "Только ночью"], 0,
       "Сон лёжа или облокотившись нарушает омовение, потому что тело полностью расслаблено.", "Нарушения"),
-    q("Сколько фардов в гусле по ханафитскому мазхабу?", ["Один", "Три", "Четыре", "Семь"], 1,
-      "Прополоскать рот, промыть нос и омыть всё тело, не оставив сухого места.", "Гусль")
+    q("Сколько фардов в гусле по {mz} мазхабу?", ["Один", "Два", "Три", "Пять"], { h: 2, s: 1, m: 3, hb: 0 },
+      { h: "Три: прополоскать рот, промыть нос и омыть всё тело, не оставив сухого места.",
+        s: "Два: намерение и омовение всего тела.",
+        m: "Пять: намерение, омовение всего тела, растирание, непрерывность и пропускание воды сквозь волосы.",
+        hb: "Один: омыть всё тело, включая рот и нос. Намерение — условие действительности." }, "Гусль"),
+    q("Сколько раз ударяют ладонями о землю в таяммуме по {mz} мазхабу?", ["Один", "Два", "Три", "Ни разу"], { h: 1, s: 1, m: 0, hb: 0 },
+      { h: "Два: удар для лица и удар для рук до локтей (ад-Даракутни).", s: "Два: удар для лица и удар для рук до локтей.",
+        m: "Обязателен один удар, второй — сунна. Довод — хадис Аммара (аль-Бухари 338).", hb: "Один удар для лица и кистей — по хадису Аммара (аль-Бухари 338)." }, "Таяммум")
   ];
 
   var MEN = [
@@ -960,14 +1220,14 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     q("Выделилась мази (прозрачная жидкость при возбуждении, не семя). Что нужно?", ["Гусль", "Смыть её и совершить малое омовение", "Ничего", "Только сменить одежду"], 1,
       "Мази нечиста и нарушает малое омовение, но гусль после неё не нужен.", "Мужчинам"),
     q("Мужчина носит длинные волосы в косах. Нужно ли их расплетать для гусля?", ["Нет, никогда", "Да, вода должна пройти по всем волосам", "Достаточно смочить кончики", "Только зимой"], 1,
-      "Облегчение не расплетать косы дано женщинам. Мужчине по ханафитскому мазхабу нужно, чтобы вода дошла до всех волос.", "Мужчинам"),
+      "Облегчение не расплетать косы дано женщинам. Мужчине по ханафитскому мазхабу нужно, чтобы вода дошла до всех волос.", "Мужчинам", ["h"]),
     q("Можно ли расходовать много воды, если вы у реки?", ["Да, вода же бесплатная", "Нет, расточительство порицается даже у реки", "Да, чем больше, тем лучше", "Только летом"], 1,
       "Пророк ﷺ осудил излишний расход воды при омовении, даже если человек стоит у текущей реки (хадис, Ибн Маджа).", "Советы")
   ];
 
   var WOMEN = [
     q("Можно ли женщине протереть голову поверх платка?", ["Да", "Нет, нужно протереть сами волосы", "Только в дороге", "Только если платок тонкий"], 1,
-      "Масх поверх платка не засчитывается. Нужно просунуть влажную руку под платок и протереть волосы.", "Женщинам"),
+      "Масх поверх платка не засчитывается. Нужно просунуть влажную руку под платок и протереть волосы.", "Женщинам", ["h", "m", "s"]),
     q("Нужно ли распускать длинные волосы для протирания головы в вуду?", ["Да, обязательно", "Нет, протирают волосы на голове", "Нужно протереть все пряди до кончиков", "Нужно облить голову водой"], 1,
       "Протирают волосы на самой голове. Пряди ниже ушей протирать не нужно, распускать волосы тоже.", "Женщинам"),
     q("Ноготь покрыт обычным лаком. Будет ли омовение действительным?", ["Да", "Нет, лак не пропускает воду", "Да, если лак светлый", "Да, если лак свежий"], 1,
@@ -977,7 +1237,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     q("Женщина во время месячных (хайд). Что с намазом?", ["Читает как обычно", "Не читает и потом не возмещает", "Не читает, но потом возмещает", "Читает сидя"], 1,
       "Во время хайда намаз не читается и не возмещается. Пропущенные дни поста потом возмещаются.", "Женщинам"),
     q("Женщина с истихадой (кровотечением вне месячных) совершает омовение…", ["Один раз в день", "Когда наступает время каждого намаза", "Ей нельзя читать намаз", "Только раз в неделю"], 1,
-      "Она совершает омовение с наступлением времени намаза и читает с ним намазы до конца этого времени.", "Женщинам"),
+      "Она совершает омовение с наступлением времени намаза и читает с ним намазы до конца этого времени.", "Женщинам", ["h", "hb"]),
     q("Нужно ли женщине расплетать косы для гусля?", ["Да, всегда", "Нет, если вода доходит до корней волос", "Достаточно смочить кончики волос", "Гусль с косами невозможен"], 1,
       "Так Пророк ﷺ ответил Умм Саламе: достаточно, чтобы вода дошла до корней волос (Муслим).", "Женщинам")
   ];
@@ -1013,10 +1273,30 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     return p;
   }
 
+  function citeWithGrade(src) {
+    var c = el("cite", null, src);
+    if (/Бухари|Муслим/.test(src) && !/Коран|Даракутни|Хаким/.test(src)) {
+      var g = el("span", "grade", "сахих"); g.title = "Достоверный хадис из сборников аль-Бухари или Муслима";
+      c.appendChild(g);
+    }
+    return c;
+  }
+
   /* ---------- Lesson component ---------- */
   function Lesson(root, steps, key, last) {
+    last.sand = !!last.sand;
     var cur = Math.min(store.get(key + "-step", 0), steps.length - 1);
     var seen = store.get(key + "-seen", []);
+
+    var tools = el("div", "lessontools");
+    var go2 = el("button", "gobtn");
+    go2.type = "button";
+    go2.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+    go2.appendChild(document.createTextNode("Совершить вместе с приложением"));
+    go2.addEventListener("click", function () { openGuide(steps, last.name); });
+    var mzb = el("span", "mzbadge");
+    tools.appendChild(go2); tools.appendChild(mzb);
+    root.appendChild(tools);
 
     var top = el("div");
     var count = el("div", "stepcount");
@@ -1028,6 +1308,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
 
     var grid = el("div", "lesson");
     var fig = document.getElementById("figTpl").content.firstElementChild.cloneNode(true);
+    if (last.sand) fig.classList.add("sand");
     var card = el("article", "card");
     card.setAttribute("aria-live", "polite");
     grid.appendChild(fig); grid.appendChild(card);
@@ -1069,8 +1350,9 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
 
       stepNum.textContent = "Шаг " + (cur + 1) + " из " + steps.length;
       seenNum.textContent = "Изучено " + seen.length + " из " + steps.length;
+      mzb.textContent = "По " + MZ_ADJ[MZ] + " мазхабу";
       Array.prototype.forEach.call(progress.children, function (b, i) {
-        b.className = (i === cur ? "cur" : "") + (seen.indexOf(i) >= 0 ? " seen" : "") + (steps[i].kind === "fard" ? " fard" : "");
+        b.className = (i === cur ? "cur" : "") + (seen.indexOf(i) >= 0 ? " seen" : "") + (kindOf(steps[i]) !== "sunna" ? " fard" : "");
         if (i === cur) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
       });
 
@@ -1091,7 +1373,8 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       card.appendChild(head);
 
       var badges = el("div", "badges");
-      badges.appendChild(el("span", "badge " + (s.kind === "fard" ? "b-fard" : "b-sunna"), s.kind === "fard" ? "ФАРД · обязательно" : "СУННА · желательно"));
+      var kd = kindOf(s);
+      badges.appendChild(el("span", "badge b-" + kd, kd === "fard" ? "ФАРД · обязательно" : kd === "wajib" ? "ВАДЖИБ · обязательно" : "СУННА · желательно"));
       var t = el("span", "badge b-times");
       t.innerHTML = ICON_DROP;
       t.appendChild(document.createTextNode(s.times));
@@ -1106,7 +1389,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
         var dl = el("div", "dalil");
         dl.appendChild(el("span", "lbl", "Довод"));
         dl.appendChild(el("q", null, s.dalil[0]));
-        dl.appendChild(el("cite", null, s.dalil[1]));
+        dl.appendChild(citeWithGrade(s.dalil[1]));
         card.appendChild(dl);
       }
 
@@ -1138,7 +1421,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     });
 
     render();
-    return { refresh: placeDrops };
+    return { refresh: placeDrops, render: render, go: go };
   }
 
   /* Evidence (dalil) for each step and a link to the madhab issue, by step index */
@@ -1350,7 +1633,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
           var box = el("div", "arg");
           box.appendChild(el("b", null, ag[0]));
           box.appendChild(el("p", null, ag[1]));
-          if (ag[2]) box.appendChild(el("cite", null, ag[2]));
+          if (ag[2]) box.appendChild(citeWithGrade(ag[2]));
           d.appendChild(box);
         });
         c.appendChild(d);
@@ -1358,12 +1641,437 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       });
     });
   }
-  renderMadhab();
+
+  /* ---------- Madhab selection ---------- */
+  var MZ_KEYS = ["h", "m", "s", "hb"];
+  var MZ_ADJ = { h: "ханафитскому", m: "маликитскому", s: "шафиитскому", hb: "ханбалитскому" };
+  var MZ_GEN = { h: "ханафитского", m: "маликитского", s: "шафиитского", hb: "ханбалитского" };
+  var MZ = store.get("mz", "h");
+  if (MZ_KEYS.indexOf(MZ) < 0) MZ = "h";
+  function pickMz(v) { return (v && typeof v === "object" && !Array.isArray(v)) ? (v[MZ] !== undefined ? v[MZ] : v.all) : v; }
+  function kindOf(s) { return (s.kinds && s.kinds[MZ]) || s.kind; }
+
+  /* Ruling overrides for steps in other madhabs */
+  var WUDU_KINDS = [{ m: "fard", s: "fard", hb: "fard" }, { hb: "wajib" }, null, { hb: "fard" }, { hb: "fard" }, null, null, null, { hb: "fard" }, null, null];
+  var GHUSL_KINDS = [{ m: "fard", s: "fard", hb: "fard" }, null, null, null, { m: "sunna", s: "sunna" }, { m: "sunna", s: "sunna" }, null, null, null, null, null, null];
+  WUDU.forEach(function (s, i) { if (WUDU_KINDS[i]) s.kinds = WUDU_KINDS[i]; });
+  GHUSL.forEach(function (s, i) { if (GHUSL_KINDS[i]) s.kinds = GHUSL_KINDS[i]; });
+
+  var TAYAMMUM = [
+    { title: "Намерение", ar: "النِّيَّة", kind: "fard", times: "в сердце", zone: ["heart"], cap: "Намерение — в сердце",
+      how: ["Намерьтесь совершить таяммум, чтобы очиститься для намаза: вместо вуду, вместо гусля или вместо обоих."],
+      madhab: "В таяммуме намерение обязательно во всех четырёх мазхабах, в том числе у ханафитов: земля сама по себе не очищает, в отличие от воды.",
+      dalil: ["«Поистине, дела оцениваются только по намерениям»", "аль-Бухари 1, Муслим 1907"] },
+    { title: "Бисмиллях", ar: "البَسْمَلَة", kind: "sunna", times: "1 раз", zone: ["mouth"], cap: "Произнесите «Бисмиллях»",
+      how: ["Скажите «Бисмиллях»."], arabic: { ar: "بِسْمِ اللّٰهِ", tr: "Бисмилляh", ru: "С именем Аллаха" } },
+    { title: "Первый удар ладонями", ar: "الضَّرْبَةُ الأُولَى", kind: "fard", times: "1 раз", zone: ["hands"], cap: "Ладонями о чистую землю",
+      how: ["Ударьте обеими раскрытыми ладонями по чистой земле, песку или камню.", "Стряхните лишнее или слегка подуйте на ладони."],
+      mz: "tstrikes",
+      dalil: ["Аммар (р.): «Тебе было бы достаточно сделать так», — и Пророк ﷺ ударил ладонями о землю, подул на них и протёр ими лицо и кисти", "аль-Бухари 338, Муслим 368"] },
+    { title: "Протереть лицо", ar: "مَسْحُ الوَجْه", kind: "fard", times: "1 раз", zone: ["face"], cap: "Всё лицо, как в вуду",
+      how: ["Протрите ладонями всё лицо — в тех же границах, что и в вуду, ничего не пропуская.", "Если есть борода, протрите и её."],
+      mistake: "Частая ошибка: пропустить места у ушей и под подбородком.",
+      dalil: ["«…то совершайте таяммум чистой землёй и протрите ваши лица и руки»", "Коран, 5:6; 4:43"] },
+    { title: "Второй удар ладонями", ar: "الضَّرْبَةُ الثَّانِيَة", kind: "fard", kinds: { m: "sunna", hb: "sunna" }, times: "1 раз", zone: ["hands"], cap: "Снова о землю",
+      how: ["Снова ударьте ладонями о землю и стряхните лишнее."],
+      mz: "tstrikes",
+      dalil: ["«Таяммум — это два удара: удар для лица и удар для рук до локтей»", "ад-Даракутни, аль-Хаким"] },
+    { title: "Протереть руки", ar: "مَسْحُ اليَدَيْن", kind: "fard", times: "1 раз", zone: ["arms", "hands"], cap: "До локтей включительно",
+      how: ["Левой ладонью протрите правую руку от кончиков пальцев до локтя, затем по внутренней стороне обратно до кисти.", "Так же правой ладонью — левую руку.", "Снимите или сдвиньте кольца, протрите между пальцами."],
+      mz: "tarms",
+      madhab: "У ханафитов и шафиитов обязательно протереть руки до локтей. У маликитов и ханбалитов обязательно — до запястий, а у маликитов протереть до локтей — сунна.",
+      dalil: ["«…удар для рук до локтей». У маликитов и ханбалитов — хадис Аммара: «…и протёр ими лицо и кисти»", "ад-Даракутни; аль-Бухари 338"] }
+  ];
+
+  function F(ar, t, d) { return [ar, t, d]; }
+  var F_FACE = F("الوجه", "Лицо", "Умыть целиком"), F_ARMS = F("اليدان", "Руки", "До локтей включительно"),
+      F_FEET = F("الرجلان", "Ноги", "До щиколоток включительно"), F_NIY = F("النية", "Намерение", "В сердце, в начале"),
+      F_ORD = F("الترتيب", "Порядок", "Как в аяте"), F_MUW = F("الموالاة", "Непрерывность", "Без перерыва"),
+      F_DALK = F("الدلك", "Растирание", "Провести рукой по коже");
+  var FARD_W = {
+    h: { list: [F_FACE, F_ARMS, F("الرأس", "Голова", "Протереть не меньше ¼"), F_FEET],
+         note: "Ханафиты: намерение, порядок и непрерывность — сунна. Довод — аят 5:6, в котором названы только эти четыре действия." },
+    m: { list: [F_NIY, F_FACE, F_ARMS, F("الرأس", "Голова", "Протереть всю"), F_FEET, F_DALK, F_MUW],
+         note: "Маликиты: непрерывность обязательна, если человек помнит и может. Порядок — сунна." },
+    s: { list: [F_NIY, F_FACE, F_ARMS, F("الرأس", "Голова", "Протереть хотя бы часть"), F_FEET, F_ORD],
+         note: "Шафииты: намерение делают при умывании лица. Непрерывность — сунна." },
+    hb: { list: [F("الوجه", "Лицо", "Вместе со ртом и носом"), F_ARMS, F("الرأس", "Голова", "Всю, вместе с ушами"), F_FEET, F_ORD, F_MUW],
+         note: "Ханбалиты: намерение — условие действительности, «Бисмиллях» — ваджиб для того, кто помнит." }
+  };
+  var FARD_G = {
+    h: { list: [F("المضمضة", "Рот", "Прополоскать целиком"), F("الاستنشاق", "Нос", "До твёрдой части"), F("البدن", "Тело", "Омыть без сухих мест")],
+         note: "Ханафиты: намерение в гусле — сунна." },
+    m: { list: [F_NIY, F("البدن", "Тело", "Омыть целиком"), F_DALK, F_MUW, F("تخليل الشعر", "Волосы", "Пропустить воду сквозь них")],
+         note: "Маликиты: рот и нос в гусле — сунна." },
+    s: { list: [F_NIY, F("البدن", "Тело", "Омыть целиком, с волосами")],
+         note: "Шафииты: рот и нос в гусле — сунна, малое омовение перед гуслем — тоже сунна." },
+    hb: { list: [F("البدن", "Тело", "Целиком, со ртом и носом")],
+         note: "Ханбалиты: намерение — условие действительности гусля, а рот и нос входят в омовение тела." }
+  };
+  var FARD_T = {
+    h: { list: [F_NIY, F("الضربتان", "Два удара", "Для лица и для рук"), F("الوجه", "Лицо", "Протереть целиком"), F("اليدان", "Руки", "До локтей")] },
+    m: { list: [F_NIY, F("الضربة الأولى", "Первый удар", "Второй — сунна"), F("الوجه", "Лицо", "Протереть целиком"), F("الكفان", "Кисти", "До запястий"), F_MUW] },
+    s: { list: [F_NIY, F("نقل التراب", "Перенос пыли", "Удар о землю"), F("الوجه", "Лицо", "Протереть целиком"), F("اليدان", "Руки", "До локтей"), F_ORD] },
+    hb: { list: [F("الوجه", "Лицо", "Протереть целиком"), F("الكفان", "Кисти", "До запястий"), F_ORD, F_MUW] }
+  };
+  var NUM_WORD = ["", "Один фард", "Два фарда", "Три фарда", "Четыре фарда", "Пять фардов", "Шесть фардов", "Семь фардов"];
+
+  var BREAK = [
+    { t: "Выход чего-либо из естественных путей", d: { all: "Моча, кал, газы, выделения. «…или кто-нибудь из вас пришёл из уборной» (Коран, 5:6). Все мазхабы согласны" } },
+    { t: "Кровь, гной или сукровица", d: { h: "Если вытекли и растеклись с места раны", hb: "Если их много" }, mz: "blood" },
+    { t: "Рвота", d: { h: "Полным ртом — если её трудно удержать", hb: "Если её много" }, mz: "vomit" },
+    { t: "Сон", d: { h: "Лёжа или облокотившись. Дремота сидя ровно не нарушает", m: "Глубокий сон, при котором человек не замечает происходящего", s: "Если человек спал, не сидя плотно на месте", hb: "Любой сон, кроме лёгкой дремоты сидя или стоя" }, mz: "sleep" },
+    { t: "Потеря сознания, обморок, опьянение", d: { all: "Это сильнее сна, поэтому все мазхабы согласны" } },
+    { t: "Громкий смех во время намаза", d: { h: "Нарушает и намаз, и омовение (у взрослого)" }, mz: "laugh" },
+    { t: "Касание кожи человека противоположного пола", d: { s: "Любое касание кожей не-махрама, даже без вожделения", m: "Если с вожделением или ради удовольствия", hb: "Если с вожделением" }, mz: "touch" },
+    { t: "Касание своего интимного места", d: { m: "Ладонью или пальцами", s: "Внутренней стороной ладони или пальцев", hb: "Рукой, без преграды" }, mz: "private" },
+    { t: "Верблюжье мясо", d: { hb: "Если человек съел его" }, mz: "camel" }
+  ];
+
+  var AYAH = [
+    ["يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا قُمْتُمْ إِلَى الصَّلَاةِ", null, "О те, которые уверовали! Когда вы встаёте на намаз,"],
+    ["فَاغْسِلُوا وُجُوهَكُمْ", 5, "омывайте ваши лица"],
+    ["وَأَيْدِيَكُمْ إِلَى الْمَرَافِقِ", 6, "и ваши руки до локтей,"],
+    ["وَامْسَحُوا بِرُءُوسِكُمْ", 7, "протирайте ваши головы"],
+    ["وَأَرْجُلَكُمْ إِلَى الْكَعْبَيْنِ", 9, "и омывайте ваши ноги до щиколоток."]
+  ];
+
+  var GLOSSARY = [
+    ["Фард", "فَرْض", "Строго обязательное. Кто оставил фард, у того действие недействительно."],
+    ["Ваджиб", "وَاجِب", "Обязательное. У ханафитов — ступень ниже фарда: доказано менее категорично. В других мазхабах обычно то же, что фард."],
+    ["Сунна", "سُنَّة", "Путь Пророка ﷺ: то, что он делал постоянно. За исполнение — награда, пропуск не портит действие."],
+    ["Мустахаб", "مُسْتَحَبّ", "Желательное: то, что Пророк ﷺ делал иногда или поощрял. Близко к сунне."],
+    ["Макрух", "مَكْرُوه", "Нежелательное. Например, тратить лишнюю воду или мыть части тела больше трёх раз."],
+    ["Мазхаб", "مَذْهَب", "Правовая школа: метод выведения решений из Корана и Сунны. Признаны четыре: ханафитский, маликитский, шафиитский и ханбалитский."],
+    ["Далиль", "دَلِيل", "Довод: аят, хадис, единогласное мнение учёных (иджма) или суждение по аналогии (кыяс)."],
+    ["Иджма", "إِجْمَاع", "Единогласное мнение учёных-муджтахидов. Например, что четыре действия из аята 5:6 обязательны."],
+    ["Тахара", "طَهَارَة", "Ритуальная чистота: от нечистоты на теле и от состояния хадаса."],
+    ["Хадас", "حَدَث", "Состояние без омовения. Малый хадас снимается вуду, большой (джанаба, хайд, нифас) — гуслем."],
+    ["Наджаса", "نَجَاسَة", "Нечистота: моча, кал, кровь и т. п. Её смывают с тела, одежды и места намаза."],
+    ["Вуду, тахарат", "وُضُوء", "Малое омовение: лицо, руки, протирание головы, ноги."],
+    ["Гусль", "غُسْل", "Полное омовение всего тела."],
+    ["Таяммум", "تَيَمُّم", "Очищение чистой землёй, когда нет воды или её нельзя использовать."],
+    ["Джанаба", "جَنَابَة", "Состояние большого осквернения после близости или семяизвержения."],
+    ["Масх", "مَسْح", "Протирание влажной рукой без мытья: по голове, ушам, хуфам."],
+    ["Хуфы", "خُفّ", "Кожаные носки, закрывающие щиколотки. По ним можно делать масх вместо мытья ног."],
+    ["Истинджа", "اِسْتِنْجَاء", "Очищение интимных мест водой или камнями после нужды."],
+    ["Ният", "نِيَّة", "Намерение в сердце."],
+    ["Хайд", "حَيْض", "Месячные."],
+    ["Нифас", "نِفَاس", "Послеродовое кровотечение."],
+    ["Истихада", "اِسْتِحَاضَة", "Кровотечение вне хайда и нифаса, обычно из-за болезни."],
+    ["Мазур", "مَعْذُور", "Человек с постоянным недугом (недержание, кровотечение), для которого действуют облегчения."],
+    ["Махрам", "مَحْرَم", "Близкий родственник, брак с которым запрещён навсегда: отец, брат, сын, дядя и т. д."],
+    ["Мази", "مَذْي", "Прозрачная жидкость при возбуждении. Нарушает вуду, гусль не требует."],
+    ["Мусхаф", "مُصْحَف", "Коран в виде книги на арабском."],
+    ["Мудд, са‘", "مُدّ، صَاع", "Меры объёма: мудд — около 0,75 л, са‘ — четыре мудда, около 3 л."],
+    ["Сахих", "صَحِيح", "Достоверный хадис: надёжная непрерывная цепочка без скрытых изъянов. Таковы хадисы сборников аль-Бухари и Муслима."],
+    ["Хасан", "حَسَن", "Хороший хадис: чуть ниже сахиха, но принимается как довод."],
+    ["Даиф", "ضَعِيف", "Слабый хадис. В вопросах закона его обычно не берут как самостоятельный довод."],
+    ["Мурсаль", "مُرْسَل", "Хадис, где табиин передаёт от Пророка ﷺ, не назвав сподвижника. Ханафиты и маликиты принимают его чаще."],
+    ["(р.)", "رَضِيَ اللهُ عَنْهُ", "«Да будет доволен им Аллах» — говорят о сподвижниках."],
+    ["ﷺ", "صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ", "«Да благословит его Аллах и приветствует» — говорят, упоминая Пророка."]
+  ];
+
+  ISSUES.push(
+    { group: "tayammum", id: "tstrikes", title: "Сколько ударов о землю", q: "Сколько раз ударять ладонями о землю в таяммуме?",
+      v: ["fard|Два", "fard|Один*", "fard|Два", "fard|Один"],
+      note: "* У маликитов второй удар — сунна.",
+      args: [
+        ["Ханафиты, шафииты", "«Таяммум — это два удара: удар для лица и удар для рук до локтей». Так же поступали Ибн Умар (р.) и другие сподвижники.", "ад-Даракутни, аль-Хаким"],
+        ["Маликиты, ханбалиты", "Пророк ﷺ показал Аммару (р.) таяммум одним ударом: ударил ладонями о землю и протёр лицо и кисти. Этот хадис достовернее.", "аль-Бухари 338, Муслим 368"]
+      ] },
+    { group: "tayammum", id: "tarms", title: "Докуда протирать руки", q: "Руки в таяммуме протирают до локтей или до запястий?",
+      v: ["fard|До локтей", "fard|Кисти*", "fard|До локтей", "fard|Кисти"],
+      note: "* У маликитов до локтей — сунна.",
+      args: [
+        ["Ханафиты, шафииты", "Таяммум заменяет вуду, поэтому протирают то же, что моют в вуду, — руки до локтей. Так передаётся от Ибн Умара (р.).", "ад-Даракутни"],
+        ["Маликиты, ханбалиты", "В хадисе Аммара названы только кисти. В аяте о таяммуме не сказано «до локтей», как в аяте о вуду, а слово «руки» прежде всего означает кисти — как в аяте о наказании вора.", "аль-Бухари 338; Коран, 5:38"]
+      ] },
+    { group: "tayammum", id: "tearth", title: "Чем совершать таяммум", q: "Обязательна ли пыль, или подходит любая поверхность земли?",
+      v: ["info|Любая земля", "info|Любая земля", "info|Только пыль", "info|Только пыль"],
+      args: [
+        ["Ханафиты, маликиты", "Слово «са‘ид» в аяте означает поверхность земли — песок, камень, глину. «Земля сделана для меня местом молитвы и очищением».", "Коран, 5:6; аль-Бухари 335"],
+        ["Шафииты, ханбалиты", "В другом хадисе уточнено: «…и её прах (турба) сделан для нас очищающим». В аяте сказано «протрите… им», а это требует, чтобы на руках что-то осталось.", "Муслим 522; Коран, 5:6"]
+      ] },
+    { group: "tayammum", id: "tprayer", title: "Сколько намазов с одним таяммумом", q: "Можно ли с одним таяммумом прочитать несколько обязательных намазов?",
+      v: ["no|Сколько угодно", "breaks|Один фард", "breaks|Один фард", "info|До конца времени"],
+      note: "Желательные намазы можно читать с тем же таяммумом во всех мазхабах.",
+      args: [
+        ["Ханафиты", "Таяммум полностью заменяет воду: «Чистая земля — очищение для мусульманина, даже если он не найдёт воды десять лет». Пока он не нарушен, им можно молиться, как с вуду.", "Абу Дауд 332, ат-Тирмизи 124"],
+        ["Маликиты, шафииты", "Ибн Аббас (р.) сказал: «Из сунны — не совершать с одним таяммумом больше одного обязательного намаза». Таяммум — вынужденное очищение, оно действует по необходимости.", "ад-Даракутни"],
+        ["Ханбалиты", "Таяммум действует до конца времени намаза, как омовение мазура: оно связано с необходимостью, а необходимость определяется временем.", ""]
+      ] }
+  );
+  MZ_GROUPS.splice(3, 0, ["tayammum", "Таяммум"]);
 
   var lessons = {
-    learn: Lesson(document.getElementById("lessonWudu"), WUDU, "wudu", { label: "Пройти тест →", hash: "quiz" }),
-    ghusl: Lesson(document.getElementById("lessonGhusl"), GHUSL, "ghusl", { label: "Тренировать порядок →", hash: "practice" })
+    learn: Lesson(document.getElementById("lessonWudu"), WUDU, "wudu", { label: "Проверить себя →", hash: "quiz", name: "Вуду" }),
+    ghusl: Lesson(document.getElementById("lessonGhusl"), GHUSL, "ghusl", { label: "Тренировать порядок →", hash: "practice", name: "Гусль" }),
+    tayammum: Lesson(document.getElementById("lessonTayammum"), TAYAMMUM, "tay", { label: "Мнения мазхабов →", hash: "madhab-tayammum", name: "Таяммум", sand: true })
   };
+  /* ---------- Madhab-aware blocks ---------- */
+  function renderFardBox(listId, titleId, noteId, data, label) {
+    var d = data[MZ], box = document.getElementById(listId);
+    box.innerHTML = "";
+    var n = d.list.length;
+    box.style.setProperty("--cols", n <= 4 ? n : (n === 6 || n === 5 ? 3 : 4));
+    box.classList.toggle("odd", n % 2 === 1);
+    d.list.forEach(function (f) {
+      var c = el("div");
+      var ar = el("span", "ar", f[0]); ar.lang = "ar";
+      c.appendChild(ar); c.appendChild(el("b", null, f[1])); c.appendChild(document.createTextNode(f[2]));
+      box.appendChild(c);
+    });
+    document.getElementById(titleId).textContent = (NUM_WORD[n] || n + " фардов") + " " + label + " · " + MZ_NAMES[MZ_KEYS.indexOf(MZ)];
+    if (noteId) document.getElementById(noteId).textContent = d.note || "";
+  }
+  function renderBreakers() {
+    var ul = document.getElementById("breakList");
+    ul.innerHTML = "";
+    BREAK.forEach(function (b) {
+      var d = b.d[MZ] || b.d.all;
+      if (!d) return;
+      var li = el("li");
+      li.appendChild(el("b", null, b.t));
+      var sp = el("span", null, d);
+      if (b.mz) {
+        sp.appendChild(document.createTextNode(". "));
+        var a = el("a", null, "Мнения и доводы →"); a.href = "#m-" + b.mz;
+        sp.appendChild(a);
+      }
+      li.appendChild(sp);
+      ul.appendChild(li);
+    });
+    document.getElementById("breakLead").textContent = "После этого нужно совершить омовение заново. Положения " + MZ_GEN[MZ] + " мазхаба — его можно сменить в шапке.";
+  }
+  function renderAyah() {
+    var ar = document.getElementById("ayahAr"), ru = document.getElementById("ayahRu");
+    AYAH.forEach(function (seg, i) {
+      [[ar, seg[0]], [ru, seg[2]]].forEach(function (pair, k) {
+        var node;
+        if (seg[1] === null) node = el("span", null, pair[1]);
+        else {
+          node = el("button", "aseg", pair[1]); node.type = "button"; node.setAttribute("data-seg", i);
+          node.addEventListener("click", function () {
+            document.querySelectorAll(".aseg").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-seg") === String(i)); });
+            document.getElementById("ayahNote").hidden = seg[1] !== 9;
+            lessons.learn.go(seg[1]);
+            var fig = document.querySelector("#lessonWudu .lesson");
+            if (fig && fig.getBoundingClientRect().top > window.innerHeight * .6) fig.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        }
+        pair[0].appendChild(node);
+        pair[0].appendChild(document.createTextNode(" "));
+      });
+    });
+  }
+  function renderGlossary() {
+    var list = document.getElementById("glossList");
+    GLOSSARY.forEach(function (g) {
+      var it = el("div", "gitem");
+      it.setAttribute("data-q", (g[0] + " " + g[2]).toLowerCase());
+      var h = el("div", "ghead");
+      h.appendChild(el("b", null, g[0]));
+      var a = el("span", "ar", g[1]); a.lang = "ar"; h.appendChild(a);
+      it.appendChild(h);
+      it.appendChild(el("p", null, g[2]));
+      list.appendChild(it);
+    });
+    var input = document.getElementById("glossQ");
+    input.addEventListener("input", function () {
+      var q = input.value.trim().toLowerCase(), shown = 0;
+      list.querySelectorAll(".gitem").forEach(function (it) {
+        var ok = !q || it.getAttribute("data-q").indexOf(q) >= 0;
+        it.hidden = !ok; if (ok) shown++;
+      });
+      document.getElementById("glossEmpty").hidden = shown > 0;
+    });
+  }
+  function markMadhabCells() {
+    var idx = MZ_KEYS.indexOf(MZ);
+    document.querySelectorAll(".mzgrid").forEach(function (g) {
+      Array.prototype.forEach.call(g.children, function (c, i) { c.classList.toggle("mine", i === idx); });
+    });
+    document.querySelectorAll(".mzlegend div").forEach(function (c, i) {
+      c.classList.toggle("mine", i === [0, 1, 2, 3][idx]);
+    });
+    document.querySelectorAll(".mzpick button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-mz") === MZ));
+    });
+  }
+  function applyMadhab() {
+    renderFardBox("fardWudu", "fardWuduTitle", "fardWuduNote", FARD_W, "вуду");
+    renderFardBox("fardGhusl", "fardGhuslTitle", "fardGhuslNote", FARD_G, "гусля");
+    renderFardBox("fardTay", "fardTayTitle", null, FARD_T, "таяммума");
+    renderBreakers();
+    markMadhabCells();
+    Object.keys(lessons).forEach(function (k) { lessons[k].render(); });
+    qMode = null;
+  }
+  document.querySelectorAll(".mzpick button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      MZ = b.getAttribute("data-mz");
+      store.set("mz", MZ);
+      applyMadhab();
+      toast("Выбран " + MZ_GEN[MZ].replace(/ого$/, "ий") + " мазхаб: уроки, фарды и тесты обновлены");
+    });
+  });
+
+  var toastTimer;
+  function toast(text) {
+    var t = document.getElementById("toast");
+    t.textContent = text; t.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.hidden = true; }, 2600);
+  }
+
+  /* ---------- Guided mode («у раковины») ---------- */
+  var G = { steps: null, i: 0, n: 0, need: 1, voice: store.get("voice", false), lock: null, name: "" };
+  var gEl = function (id) { return document.getElementById(id); };
+  var canSpeak = "speechSynthesis" in window;
+  function speak(text, lang) {
+    if (!canSpeak) return;
+    try {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = lang; u.rate = lang === "ar-SA" ? 0.8 : 1;
+      var v = speechSynthesis.getVoices().filter(function (x) { return x.lang && x.lang.toLowerCase().indexOf(lang.slice(0, 2)) === 0; })[0];
+      if (v) u.voice = v;
+      speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+  function hasVoice(prefix) {
+    try { return speechSynthesis.getVoices().some(function (x) { return x.lang && x.lang.toLowerCase().indexOf(prefix) === 0; }); } catch (e) { return false; }
+  }
+  function openGuide(steps, name) {
+    G.steps = steps; G.i = 0; G.name = name;
+    gEl("guide").hidden = false;
+    document.documentElement.classList.add("noscroll");
+    try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then(function (l) { G.lock = l; }).catch(function () {}); } catch (e) {}
+    gEl("gVoice").hidden = !canSpeak;
+    gEl("gVoice").setAttribute("aria-pressed", String(G.voice));
+    renderGuide();
+    gEl("gNext").focus();
+  }
+  function closeGuide() {
+    gEl("guide").hidden = true;
+    document.documentElement.classList.remove("noscroll");
+    if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
+    if (G.lock) { try { G.lock.release(); } catch (e) {} G.lock = null; }
+  }
+  function renderGuide() {
+    var steps = G.steps;
+    if (G.i >= steps.length) {
+      gEl("gProg").textContent = G.name + " завершено";
+      gEl("gBar").style.width = "100%";
+      gEl("gAr").textContent = "تَقَبَّلَ اللهُ";
+      gEl("gTitle").textContent = "Да примет Аллах!";
+      gEl("gText").textContent = G.name === "Таяммум" ? "Таяммум совершён. Теперь можно читать намаз." : G.name + " совершено. Теперь можно читать намаз.";
+      gEl("gArabic").hidden = true;
+      gEl("gCount").hidden = true;
+      gEl("gPrev").disabled = false;
+      gEl("gNext").textContent = "Закрыть";
+      if (G.voice) speak("Да примет Аллах!", "ru-RU");
+      return;
+    }
+    var s = steps[G.i];
+    var m = /^(\d+)/.exec(s.times);
+    G.need = m ? parseInt(m[1], 10) : 1; G.n = 0;
+    gEl("gProg").textContent = G.name + " · шаг " + (G.i + 1) + " из " + steps.length;
+    gEl("gBar").style.width = (G.i / steps.length * 100) + "%";
+    gEl("gAr").textContent = s.ar;
+    gEl("gTitle").textContent = s.title;
+    gEl("gText").textContent = s.how.slice(0, 2).join(" ");
+    if (s.arabic) {
+      gEl("gArabic").hidden = false;
+      gEl("gArabicAr").textContent = s.arabic.ar;
+      gEl("gArabicTr").textContent = s.arabic.tr;
+      gEl("gListen").hidden = !(canSpeak && hasVoice("ar"));
+    } else gEl("gArabic").hidden = true;
+    gEl("gCount").hidden = G.need < 2;
+    renderCount();
+    gEl("gPrev").disabled = G.i === 0;
+    gEl("gNext").textContent = G.i === steps.length - 1 ? "Завершить" : "Дальше";
+    if (G.voice) speak(s.title + ". " + s.how[0], "ru-RU");
+  }
+  function renderCount() {
+    var c = gEl("gCount");
+    c.innerHTML = "";
+    for (var k = 0; k < G.need; k++) c.appendChild(el("i", k < G.n ? "on" : ""));
+    c.appendChild(el("span", null, G.n < G.need ? "Нажмите после каждого раза · " + G.n + " из " + G.need : "Готово — переходите дальше"));
+    gEl("gNext").classList.toggle("ready", G.n >= G.need);
+  }
+  gEl("gCount").addEventListener("click", function () {
+    if (G.n < G.need) { G.n++; renderCount(); if (navigator.vibrate) try { navigator.vibrate(15); } catch (e) {} }
+  });
+  gEl("gNext").addEventListener("click", function () {
+    if (G.i >= G.steps.length) { closeGuide(); return; }
+    G.i++; renderGuide();
+  });
+  gEl("gPrev").addEventListener("click", function () {
+    if (G.i >= G.steps.length) G.i = G.steps.length - 1; else if (G.i > 0) G.i--;
+    renderGuide();
+  });
+  gEl("gClose").addEventListener("click", closeGuide);
+  gEl("gVoice").addEventListener("click", function () {
+    G.voice = !G.voice; store.set("voice", G.voice);
+    gEl("gVoice").setAttribute("aria-pressed", String(G.voice));
+    if (G.voice && G.i < G.steps.length) speak(G.steps[G.i].title + ". " + G.steps[G.i].how[0], "ru-RU");
+    else if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
+  });
+  gEl("gListen").addEventListener("click", function () { var s = G.steps[G.i]; if (s && s.arabic) speak(s.arabic.ar, "ar-SA"); });
+  document.addEventListener("keydown", function (e) {
+    if (gEl("guide").hidden) return;
+    if (e.key === "Escape") closeGuide();
+    if (e.key === "ArrowRight") gEl("gNext").click();
+    if (e.key === "ArrowLeft") gEl("gPrev").click();
+  });
+  document.addEventListener("visibilitychange", function () {
+    if (!gEl("guide").hidden && document.visibilityState === "visible" && navigator.wakeLock && !G.lock) {
+      try { navigator.wakeLock.request("screen").then(function (l) { G.lock = l; }).catch(function () {}); } catch (e) {}
+    }
+  });
+
+  /* ---------- Install & share (GitHub Pages) ---------- */
+  var isSite = location.protocol === "https:" && /github\.io$/.test(location.hostname);
+  if (isSite && "serviceWorker" in navigator) {
+    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+  }
+  var deferredInstall = null;
+  window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault(); deferredInstall = e;
+    gEl("installBtn").hidden = false;
+  });
+  var standalone = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone;
+  if (isSite && !standalone && /iphone|ipad|ipod/i.test(navigator.userAgent)) {
+    gEl("installBtn").hidden = false;
+  }
+  gEl("installBtn").addEventListener("click", function () {
+    if (deferredInstall) {
+      deferredInstall.prompt();
+      deferredInstall.userChoice.finally(function () { deferredInstall = null; gEl("installBtn").hidden = true; });
+    } else {
+      toast("В Safari нажмите «Поделиться», затем «На экран „Домой“»");
+    }
+  });
+  var SITE = "https://hammadismailov2015-wq.github.io/Babai-/";
+  gEl("shareBtn").addEventListener("click", function () {
+    var url = isSite ? location.href.split("#")[0] + location.hash : SITE + location.hash;
+    if (isSite && navigator.share) {
+      navigator.share({ title: "Учимся омовению", text: "Вуду, гусль и таяммум по шагам — с доводами и мнениями мазхабов", url: url }).catch(function () {});
+      return;
+    }
+    var done = function () { toast("Ссылка скопирована: " + url.replace("https://", "")); };
+    try {
+      navigator.clipboard.writeText(url).then(done, function () { toast(url); });
+    } catch (e) { toast(url); }
+  });
+
+  renderMadhab();
+  renderAyah();
+  renderGlossary();
+  applyMadhab();
+
 
   /* ---------- Practice ---------- */
   var pSteps = WUDU, pNext, pErrors;
@@ -1390,10 +2098,12 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     pSteps = steps;
     document.getElementById("pmWudu").setAttribute("aria-pressed", String(steps === WUDU));
     document.getElementById("pmGhusl").setAttribute("aria-pressed", String(steps === GHUSL));
+    document.getElementById("pmTay").setAttribute("aria-pressed", String(steps === TAYAMMUM));
     startPractice();
   }
   document.getElementById("pmWudu").addEventListener("click", function () { setMode(WUDU); });
   document.getElementById("pmGhusl").addEventListener("click", function () { setMode(GHUSL); });
+  document.getElementById("pmTay").addEventListener("click", function () { setMode(TAYAMMUM); });
   function pStatus() {
     document.getElementById("pStatus").textContent = "Собрано " + pNext + " из " + pSteps.length + (pErrors ? " · ошибок: " + pErrors : "");
     document.getElementById("pMeter").style.width = (pNext / pSteps.length * 100) + "%";
@@ -1430,10 +2140,10 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
     if (mode) renderQuiz();
   }
   function renderQuiz() {
-    var test = TESTS[qMode], QUIZ = test.list;
+    var test = TESTS[qMode], QUIZ = test.list.filter(function (x) { return !x.only || x.only.indexOf(MZ) >= 0; });
     var card = document.getElementById("qCard");
     card.className = "card" + (qMode === "women" ? " rose" : "");
-    document.getElementById("qTitle").textContent = test.title;
+    document.getElementById("qTitle").textContent = test.title + " · " + MZ_NAMES[MZ_KEYS.indexOf(MZ)];
     card.innerHTML = "";
     if (qi >= QUIZ.length) {
       document.getElementById("qNum").textContent = "Тест завершён";
@@ -1462,7 +2172,8 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
       card.appendChild(row);
       return;
     }
-    var item = QUIZ[qi];
+    var raw = QUIZ[qi];
+    var item = { q: raw.q.replace("{mz}", MZ_ADJ[MZ]), o: raw.o, a: pickMz(raw.a), e: pickMz(raw.e), tag: raw.tag };
     document.getElementById("qNum").textContent = "Вопрос " + (qi + 1) + " из " + QUIZ.length;
     document.getElementById("qScore").textContent = "Верно: " + qRight;
     if (item.tag) card.appendChild(el("span", "qtag", item.tag));
@@ -1492,7 +2203,7 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   }
 
   /* ---------- Routing ---------- */
-  var VIEWS = ["learn", "ghusl", "women", "rules", "madhab", "practice", "quiz"];
+  var VIEWS = ["learn", "ghusl", "tayammum", "women", "rules", "madhab", "glossary", "practice", "quiz"];
   var ALIAS = { breakers: "rules" };
   function route() {
     var h = (location.hash || "").replace("#", "");
