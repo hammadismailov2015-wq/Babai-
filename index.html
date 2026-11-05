@@ -626,6 +626,28 @@ nav.tabs .seg { grid-template-columns: repeat(8, minmax(0, 1fr)); }
 .gpose .pc { stroke: var(--cloth); } .gpose .po { stroke: var(--cloth-line); } .gpose .ps { stroke: var(--skin); } .gpose .pso { stroke: var(--skin-line); }
 .gpose .psk { fill: var(--skin); stroke: var(--skin-line); } .gpose .pcap { fill: var(--cap); } .gpose .pmat { fill: var(--gold); opacity: .55; }
 .gpose .pq { fill: var(--muted); font: 600 11px var(--f-body); } .gpose .parr { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+/* ---------- v6: pose silhouettes ---------- */
+:root { --rug: #8a2e3b; --beard: #4b3a2c; --robe: #fbfcfc; --robe-line: #b9cbc8; --kufi: #eef2f1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --rug: #a8434f; --beard: #2e241b; --robe: #dfe7e5; --robe-line: #7f9792; --kufi: #c9d5d2; } }
+:root[data-theme="dark"] { --rug: #a8434f; --beard: #2e241b; --robe: #dfe7e5; --robe-line: #7f9792; --kufi: #c9d5d2; }
+.pz-ol, .pz-olh { fill: var(--robe-line); stroke: var(--robe-line); stroke-linejoin: round; stroke-linecap: round; }
+.pz-olh { stroke-width: 3; }
+.pz-cl { fill: var(--robe); stroke: var(--robe); stroke-linejoin: round; stroke-linecap: round; }
+.pz-sk { fill: var(--skin); stroke: var(--skin); stroke-linejoin: round; stroke-linecap: round; }
+.pz-ol.open, .pz-cl.open, .pz-sk.open { fill: none; }
+.pz-skin2 { fill: var(--skin); }
+.pz-ear { fill: none; stroke: var(--skin-line); stroke-width: 1.1; }
+.pz-beard { fill: var(--beard); }
+.pz-cap { fill: var(--kufi); }
+.pz-capline { fill: none; stroke: var(--robe-line); stroke-width: 1; }
+.pz-eye { fill: var(--ink); }
+.pz-seam { fill: none; stroke: var(--robe-line); stroke-width: 1; opacity: .7; stroke-linecap: round; }
+.pz-shadow { fill: var(--ink); opacity: .1; }
+.pz-rug { fill: var(--rug); }
+.pz-rugline { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 3 3; }
+.pq { fill: var(--muted); font: 600 11px var(--f-body); }
+.parr { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.thumb .pq { display: none; }
 footer { color: var(--muted); font-size: 13px; padding-block: 0 32px; text-align: center; display: grid; gap: 8px; justify-items: center; }
 footer .orn { width: 120px; height: 14px; }
 footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: .7; }
@@ -2117,24 +2139,63 @@ footer .orn path { fill: none; stroke: var(--gold); stroke-width: 1.2; opacity: 
   MZ_GROUPS.splice(3, 0, ["tayammum", "Таяммум"]);
 
   /* ---------- Namaz ---------- */
-  function seg(d, w) { return '<path d="' + d + '" class="po" stroke-width="' + (w + 3) + '"/><path d="' + d + '" class="pc" stroke-width="' + w + '"/>'; }
-  function limb(d, w) { return '<path d="' + d + '" class="pso" stroke-width="' + (w + 2.5) + '"/><path d="' + d + '" class="ps" stroke-width="' + w + '"/>'; }
-  function head(cx, cy, r) {
-    return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" class="psk"/>' +
-      '<path d="M' + (cx - r) + ' ' + (cy - 2) + ' A' + r + ' ' + r + ' 0 0 1 ' + (cx + r) + ' ' + (cy - 2) + ' Z" class="pcap"/>';
+  /* Prayer poses: one solid silhouette per pose (robe, skin, head in profile), facing the qibla on the right */
+  function Pg(pts, w) { return { d: "M" + pts.map(function (p) { return p.join(" "); }).join(" L") + " Z", w: w, closed: true }; }
+  function Ln(x1, y1, x2, y2, w) { return { d: "M" + x1 + " " + y1 + " L" + x2 + " " + y2, w: w }; }
+  function El(cx, cy, rx, ry, rot) { return { e: [cx, cy, rx, ry, rot || 0] }; }
+  function shape(s, cls, extra) {
+    if (s.e) return '<ellipse cx="' + s.e[0] + '" cy="' + s.e[1] + '" rx="' + s.e[2] + '" ry="' + s.e[3] + '" transform="rotate(' + s.e[4] + " " + s.e[0] + " " + s.e[1] + ')" class="' + cls + '" stroke-width="' + extra + '"/>';
+    return '<path d="' + s.d + '" class="' + cls + (s.closed ? "" : " open") + '" stroke-width="' + (s.w + extra) + '"/>';
   }
-  function hand(cx, cy, rx, ry) { return '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + (rx || 6) + '" ry="' + (ry || 6) + '" class="psk"/>'; }
-  var MAT = '<rect x="22" y="183" width="160" height="6" rx="3" class="pmat"/><text x="182" y="20" text-anchor="end" class="pq">кибла →</text>';
-  var POSES = {
-    qiyam: MAT + seg("M100 122 L100 176", 20) + limb("M100 179 L116 181", 7) + seg("M100 66 L100 122", 30) + head(100, 44, 14) + seg("M101 72 L106 98 L116 104", 10) + hand(119, 104),
-    takbir: MAT + seg("M100 122 L100 176", 20) + limb("M100 179 L116 181", 7) + seg("M100 66 L100 122", 30) + head(100, 44, 14) + seg("M102 72 L120 72 L118 50", 10) + hand(118, 44, 5, 8),
-    ruku: MAT + seg("M86 122 L86 176", 20) + limb("M86 179 L102 181", 7) + seg("M88 118 L146 116", 28) + head(161, 117, 13) + seg("M136 120 L114 136 L95 146", 10) + hand(92, 147),
-    sujud: MAT + limb("M60 179 L98 179", 16) + seg("M98 176 L82 148", 20) + seg("M84 148 L136 168", 26) + head(150, 172, 12) + seg("M128 165 L136 180", 10) + hand(150, 182, 8, 3),
-    julus: MAT + limb("M62 179 L108 179", 16) + seg("M108 176 L72 164", 20) + seg("M70 164 L70 104", 30) + head(72, 82, 14) + seg("M72 110 L84 140 L104 164", 10) + hand(108, 166),
-    salam: MAT + limb("M62 179 L108 179", 16) + seg("M108 176 L72 164", 20) + seg("M70 164 L70 104", 30) + head(72, 82, 14) + seg("M72 110 L84 140 L104 164", 10) + hand(108, 166) +
-      '<path d="M94 70 q14 10 0 24" class="parr"/><path d="M90 90 l4 5 l5 -3" class="parr"/>',
-    dua: MAT + limb("M62 179 L108 179", 16) + seg("M108 176 L72 164", 20) + seg("M70 164 L70 104", 30) + head(72, 82, 14) + seg("M72 110 L92 126 L100 112", 10) + hand(103, 106, 6, 8)
+  function headSvg(h) {
+    return '<g transform="translate(' + h[0] + " " + h[1] + ") rotate(" + (h[2] || 0) + ')">' +
+      '<ellipse cx="0" cy="0" rx="11" ry="12.5" class="pz-skin2"/>' +
+      '<path d="M-11.6 -0.5 Q-12.4 -14.6 0 -15 Q12.2 -14.6 11.7 -2.6 Q0 -6.4 -11.6 -0.5Z" class="pz-cap"/>' +
+      '<path d="M-11.2 -2.2 Q0 -7.6 11.4 -4" class="pz-capline"/>' +
+      '</g>';
+  }
+  function poseSvg(p) {
+    var all = p.cloth.concat(p.skin);
+    var out = '<ellipse cx="' + (p.sx || 98) + '" cy="183" rx="' + (p.sw || 44) + '" ry="4" class="pz-shadow"/>' +
+      '<rect x="30" y="181" width="150" height="6" rx="2" class="pz-rug"/><path d="M34 184 H176" class="pz-rugline"/>' +
+      '<text x="182" y="20" text-anchor="end" class="pq">кибла →</text>';
+    out += '<g>' + all.map(function (s) { return shape(s, "pz-ol", 3); }).join("") + headSvg(p.head).replace(/class="pz-[a-z2]+"/g, 'class="pz-olh"') + '</g>';
+    out += '<g>' + p.cloth.map(function (s) { return shape(s, "pz-cl", 0); }).join("") + '</g>';
+    out += '<g>' + p.skin.map(function (s) { return shape(s, "pz-sk", 0); }).join("") + '</g>';
+    out += (p.seams || []).map(function (d) { return '<path d="' + d + '" class="pz-seam"/>'; }).join("");
+    out += headSvg(p.head) + (p.extra || "");
+    return out;
+  }
+  var SIT = {
+    cloth: [Pg([[62, 168], [108, 168], [113, 180], [62, 180]], 6), Pg([[70, 146], [106, 158], [112, 174], [68, 176]], 8), Pg([[68, 98], [88, 98], [91, 150], [65, 150]], 10)],
+    seams: ["M78 104 L80 148"]
   };
+  function sitWith(arm, extra, head) {
+    return poseSvg({ cloth: SIT.cloth.concat(arm.cloth), skin: [Ln(78, 84, 78, 96, 8), El(57, 175, 3, 5)].concat(arm.skin), seams: SIT.seams, head: head || [79, 73], extra: extra, sx: 88, sw: 34 });
+  }
+  var POSES = {
+    qiyam: poseSvg({
+      cloth: [Pg([[89, 64], [106, 64], [114, 172], [80, 172]], 10), Pg([[86, 60], [108, 60], [110, 86], [84, 86]], 8), Ln(100, 66, 103, 90, 13), Ln(103, 90, 109, 95, 11)],
+      skin: [Ln(98, 50, 98, 60, 8), El(112, 95, 5, 4.2, -10), Pg([[86, 176], [108, 176], [116, 180], [86, 180]], 3)],
+      seams: ["M97 66 L97 170", "M84 168 L112 168"], head: [99, 39] }),
+    takbir: poseSvg({
+      cloth: [Pg([[89, 64], [106, 64], [114, 172], [80, 172]], 10), Pg([[86, 60], [108, 60], [110, 86], [84, 86]], 8), Ln(100, 66, 110, 80, 13), Ln(110, 80, 112, 54, 11)],
+      skin: [Ln(98, 50, 98, 60, 8), El(112, 44, 4, 7.5, 8), Pg([[86, 176], [108, 176], [116, 180], [86, 180]], 3)],
+      seams: ["M97 66 L97 170", "M84 168 L112 168"], head: [99, 39] }),
+    ruku: poseSvg({
+      cloth: [Pg([[86, 112], [108, 114], [112, 172], [82, 172]], 10), Pg([[86, 100], [144, 98], [148, 116], [92, 122]], 10), Ln(140, 108, 117, 140, 12)],
+      skin: [Ln(148, 105, 156, 107, 8), El(115, 145, 5.5, 5), Pg([[86, 176], [106, 176], [114, 180], [86, 180]], 3)],
+      seams: ["M92 110 L142 106", "M84 168 L110 168"], head: [163, 110, 72], sx: 110, sw: 52 }),
+    sujud: poseSvg({
+      cloth: [Pg([[62, 168], [98, 168], [100, 180], [62, 180]], 6), Pg([[70, 140], [88, 134], [104, 170], [84, 176]], 8), Pg([[74, 136], [92, 130], [140, 156], [132, 172]], 10), Ln(126, 160, 134, 176, 11)],
+      skin: [Ln(140, 164, 146, 169, 7), El(148, 181, 8, 2.6), El(59, 177, 3, 4.5)],
+      seams: ["M84 138 L134 164"], head: [153, 168, 98], sx: 106, sw: 54 }),
+    julus: sitWith({ cloth: [Ln(78, 104, 86, 134, 12), Ln(86, 134, 105, 158, 11)], skin: [El(109, 160, 6, 4, 20)] }),
+    salam: sitWith({ cloth: [Ln(78, 104, 86, 134, 12), Ln(86, 134, 105, 158, 11)], skin: [El(109, 160, 6, 4, 20)] },
+      '<path d="M96 56 q16 12 2 30" class="parr"/><path d="M93 82 l5 5 l5 -4" class="parr"/>'),
+    dua: sitWith({ cloth: [Ln(78, 104, 90, 128, 12), Ln(90, 128, 107, 118, 11)], skin: [El(113, 116, 7, 3.6, -15)] })
+  };
+
 
   var NAMAZ = [
     { title: "Намерение и кибла", ar: "النِّيَّة", kind: "fard", times: "в сердце", pose: "qiyam", cap: "Стоя лицом к кибле",
